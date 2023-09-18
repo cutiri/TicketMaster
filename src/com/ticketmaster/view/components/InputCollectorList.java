@@ -5,7 +5,7 @@ import com.ticketmaster.view.utils.DialogResult;
 import java.util.ArrayList;
 import java.util.List;
 
-class InputCollectorList extends InputCollector {
+public class InputCollectorList extends InputCollector {
     private List<String> matchesList = new ArrayList<>();
 
     public InputCollectorList(String text, String errorMsg, String escapeText) {

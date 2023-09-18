@@ -2,7 +2,7 @@ package com.ticketmaster.model;
 
 import java.util.Objects;
 
-class User {
+public class User {
     private String login;
     private String password;
     private Team team;
@@ -65,6 +65,7 @@ class User {
 
     @Override
     public String toString() {
+        System.out.println("HELLO");
         return "User{" +
                 "login='" + getLogin() + '\'' +
                 ", team=" + getTeam().getName() +

@@ -3,7 +3,7 @@ package com.ticketmaster.view.components;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
-class InputCollectorRegex extends InputCollector {
+public class InputCollectorRegex extends InputCollector {
 
     private String regex = RegexSelector.ANYTHING.getRegex();
 

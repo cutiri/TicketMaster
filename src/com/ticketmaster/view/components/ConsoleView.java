@@ -7,7 +7,7 @@ import com.ticketmaster.view.utils.DialogResult;
 import java.util.ArrayList;
 import java.util.List;
 
-class ConsoleView extends ActiveConsoleComponent {
+public class ConsoleView extends ActiveConsoleComponent {
     private final List<PassiveConsoleComponent> componentList = new ArrayList<>();
     private final List<ActiveConsoleComponent> inputCollectorsList = new ArrayList<>();
 

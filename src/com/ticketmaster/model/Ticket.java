@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 import static com.ticketmaster.model.Status.*;
 
-abstract class Ticket {
+public abstract class Ticket {
     private static int ID_COUNTER = 1000; // move to DB
     private int id;
     private String title;

@@ -1,6 +1,6 @@
 package com.ticketmaster.model;
 
-class Location {
+public class Location {
     private String name;
     private Team supportTeam;
 

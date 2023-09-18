@@ -7,10 +7,9 @@ import com.ticketmaster.view.utils.Console;
 
 import java.util.Scanner;
 
-abstract class InputCollector extends ActiveConsoleComponent {
+public abstract class InputCollector extends ActiveConsoleComponent {
 
     private String text;
-
     private String errorMsg;
     private String escapeText;
 
