@@ -1,8 +1,9 @@
 package com.ticketmaster.model.db;
 
 import com.ticketmaster.model.InvalidActionException;
-import com.ticketmaster.model.Priority;
+import com.ticketmaster.model.Request;
 import com.ticketmaster.model.Ticket;
+import com.ticketmaster.model.TroubleTicket;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -107,10 +108,84 @@ public class DatabaseTest {
     }
 
     @Test
-    public void sortTicketsByDate() {
-        List<Ticket> result = Database.sortTicketsByDate();
+    public void testSortTicketsByDateOldToNew() {
+        List<Ticket> result = Database.sortTicketsByCreationDateOldToNew();
 
         printHelper(result);
+    }
+
+    @Test
+    public void testSortTicketsByDateOldToNewFromTo() {
+        List<Ticket> result = Database.sortTicketsByCreationDateOldToNewFromTo(10, 20);
+
+        printHelper(result);
+    }
+
+    @Test
+    public void testSortTicketsByDateNewToOld() {
+        List<Ticket> result = Database.sortTicketsByCreationDateNewToOld();
+
+        printHelper(result);
+    }
+
+    @Test
+    public void testSortByPriorityLowToHigh() {
+        List<Ticket> result = Database.sortByPriorityLowToHigh();
+
+        printHelper(result);
+
+    }
+
+    @Test
+    public void testSortByPriorityHighToLow() {
+        List<Ticket> result = Database.sortByPriorityHighToLow();
+
+        printHelper(result);
+    }
+
+    @Test
+    public void testSortByPriorityLowToHighFromTo() {
+        printHelper(Database.sortByPriorityLowToHigh());
+        System.out.println("--------------------------");
+        List<Ticket> result = Database.sortByPriorityLowToHighFromTo(10,20);
+        printHelper(result);
+    }
+
+    @Test
+    public void testSortByPriorityHighToLowFromTo() {
+        printHelper(Database.sortByPriorityHighToLow());
+        System.out.println("--------------------------");
+        List<Ticket> result = Database.sortByPriorityHighToLowFromTo(10,20);
+        printHelper(result);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSortByPriorityHighToLowFromTo_shouldThrowIllegalArgumentsException_whenFromToOutOfIndexRange() {
+        Database.sortByPriorityHighToLowFromTo(10,25);
+    }
+
+    @Test
+    public void findTroubleTickets_shouldReturnListOfTroubleTickets_whenFilterTroubleTickets() {
+        List<Ticket> result = Database.findTroubleTickets();
+
+        assertEquals(16, result.size());
+
+        boolean verifyTroubleTicketClass = result.stream()
+                .allMatch(ticket -> ticket.getClass().equals(TroubleTicket.class));
+
+        assertTrue(verifyTroubleTicketClass);
+    }
+
+    @Test
+    public void findRequests_shouldReturnListOfRequests_whenFilterRequests() {
+        List<Ticket> result = Database.findRequests();
+
+        assertEquals(7, result.size());
+
+        boolean verifyRequestClass = result.stream()
+                .allMatch(ticket -> ticket.getClass().equals(Request.class));
+
+        assertTrue(verifyRequestClass);
     }
 
 }

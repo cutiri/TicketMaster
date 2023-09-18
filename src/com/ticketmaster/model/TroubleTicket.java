@@ -3,7 +3,7 @@ package com.ticketmaster.model;
 import java.time.LocalDateTime;
 import static com.ticketmaster.model.Status.RESOLVED;
 
-class TroubleTicket extends Ticket{
+public class TroubleTicket extends Ticket{
 
     public TroubleTicket(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User createdBy) {
         super(title, description, priority, location, createdAt, createdBy);
