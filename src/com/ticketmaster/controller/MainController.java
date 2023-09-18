@@ -1,5 +1,6 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Location;
 import com.ticketmaster.model.Team;
 import com.ticketmaster.model.User;
@@ -15,7 +16,7 @@ class MainController implements ControllerT<Object, Object> {
     private TicketQueueController ticketQueueController = new TicketQueueController();
 
     @Override
-    public Object run(Object o) {
+    public Object run(Object o) throws InvalidActionException {
         ConsoleView mainView = new ConsoleView();
 
         mainView.addPassiveComponents(new TextComponent(

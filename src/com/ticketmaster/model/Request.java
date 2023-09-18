@@ -3,7 +3,7 @@ package com.ticketmaster.model;
 import java.time.LocalDateTime;
 import static com.ticketmaster.model.Status.RESOLVED;
 
-class Request extends Ticket{
+public class Request extends Ticket{
     private User approver;
     private boolean isApproved;
 
