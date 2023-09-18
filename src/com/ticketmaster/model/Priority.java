@@ -1,6 +1,6 @@
 package com.ticketmaster.model;
 
-enum Priority {
+public enum Priority {
     LOW ("Low"),
     MEDIUM ("Medium"),
     HIGH ("High");

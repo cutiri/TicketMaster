@@ -7,8 +7,8 @@ class Request extends Ticket{
     private User approver;
     private boolean isApproved;
 
-    public Request(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User approver) {
-        super(title, description, priority, location, createdAt);
+    public Request(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User approver, User createdBy) {
+        super(title, description, priority, location, createdAt, createdBy);
         this.approver = approver;
         setApproved(false);
     }
@@ -49,11 +49,11 @@ class Request extends Ticket{
                 ", priority=" + getPriority() +
                 ", location=" + getLocation().getName() +
                 ", teamAssigned=" + getTeamAssigned().getName() +
-                ", userAssigned=" + getUserAssigned().getTeam() +
-//                ", createdBy=" + getCreatedBy().getLogin() +
+                ", userAssigned=" + getUserAssigned().getLogin() +
+                ", createdBy=" + getCreatedBy().getLogin() +
                 ", totalTimeSpentInMinutes=" + getTotalTimeSpentInMinutes() +
                 ", comments=" + getComments() +
-                ", approver=" + getApprover() +
+                ", approver=" + getApprover().getLogin() +
                 ", approved=" + isApproved() +
                 '}';
     }

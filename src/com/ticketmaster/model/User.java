@@ -2,17 +2,18 @@ package com.ticketmaster.model;
 
 import java.util.Objects;
 
-class User {
+public class User {
     private String login;
     private String password;
     private Team team;
     boolean isActive;
 
-    public User(String login, String password, Team team) {
+    public User(String login, String password, Team team) throws InvalidActionException {
         setLogin(login);
         setPassword(password);
         setTeam(team);
         setActive(true);
+        team.addMember(this);
     }
 
     @Override
@@ -45,6 +46,10 @@ class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public Team getTeam() {

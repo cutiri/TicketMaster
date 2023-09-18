@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 import static com.ticketmaster.model.Status.*;
 
-abstract class Ticket {
+public abstract class Ticket {
     private static int ID_COUNTER = 1000; // move to DB
     private int id;
     private String title;
@@ -21,7 +21,7 @@ abstract class Ticket {
     private int totalTimeSpentInMinutes;
     private final Collection<Comment> comments = new LinkedList<>();
 
-    public Ticket(String title, String description, Priority priority, Location location, LocalDateTime createdAt) {
+    public Ticket(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User createdBy) {
         setId(ID_COUNTER++);
         setTitle(title);
         setDescription(description);
@@ -31,6 +31,7 @@ abstract class Ticket {
         setLocation(location);
         setTeamAssigned(location.getSupportTeam());
         setUserAssigned(teamAssigned.getFirstUser());
+        setCreatedBy(createdBy);
     }
 
     public int getId() {
@@ -144,7 +145,7 @@ abstract class Ticket {
                 ", priority=" + getPriority() +
                 ", location=" + getLocation().getName() +
                 ", teamAssigned=" + getTeamAssigned().getName() +
-                ", userAssigned=" + getUserAssigned().getTeam() +
+                ", userAssigned=" + getUserAssigned().getLogin() +
                 ", createdBy=" + getCreatedBy().getLogin() +
                 ", totalTimeSpentInMinutes=" + getTotalTimeSpentInMinutes() +
                 ", comments=" + getComments() +

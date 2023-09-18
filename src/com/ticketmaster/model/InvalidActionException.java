@@ -1,6 +1,6 @@
 package com.ticketmaster.model;
 
-class InvalidActionException extends Exception{
+public class InvalidActionException extends Exception{
 
     public InvalidActionException() {
     }

@@ -1,6 +1,6 @@
 package com.ticketmaster.model;
 
-enum Status {
+public enum Status {
     OPEN ("Open"),
     IN_PROGRESS ("In Progress"),
     PENDING ("Pending"),
