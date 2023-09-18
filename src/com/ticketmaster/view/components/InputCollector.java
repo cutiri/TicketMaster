@@ -7,29 +7,23 @@ import com.ticketmaster.view.utils.Console;
 
 import java.util.Scanner;
 
-class InputCollector extends ActiveConsoleComponent {
+abstract class InputCollector extends ActiveConsoleComponent {
 
     private String text;
-    private String regex;
+
     private String errorMsg;
     private String escapeText;
 
     private Scanner scanner = new Scanner(System.in);
 
-    public InputCollector(String text, String regex, String errorMsg, String escapeText){
+    public InputCollector(String text, String errorMsg, String escapeText){
         this.text = text;
-        this.regex = regex;
         this.errorMsg = errorMsg;
         this.escapeText = escapeText;
-
-        //If the regex is null or empty then we set it to .* which will match everything the user enters
-        if(regex == null || regex.equals("")){
-            this.regex = RegexSelector.ANYTHING.getRegex();
-        }
     }
 
     @Override
-    public DialogResult show(){
+    public final DialogResult show(){
         if(getCurrentState() == DialogResult.INPUT_ERROR)
             Console.printNewLine(errorMsg, ConsoleTextColor.RED);
 
@@ -46,30 +40,10 @@ class InputCollector extends ActiveConsoleComponent {
             return getCurrentState();
         }
 
-        if(getCollectedInput().matches(regex)){
-            setCurrentState(DialogResult.SUCCESS);
-        }else{
-            setCurrentState(DialogResult.INPUT_ERROR);
-        }
+        verifyInput();
 
         return getCurrentState();
     }
 
-    public String prompt(String var1, String var2, String var3) {
-        String var4 = null;
-        boolean var5 = false;
-
-        while(!var5) {
-            System.out.print(var1);
-            var4 = this.scanner.nextLine();
-            var5 = var4.matches(var2);
-            if (var5) {
-                break;
-            }
-
-            System.out.println(var3);
-        }
-
-        return var4;
-    }
+    protected abstract void verifyInput();
 }
