@@ -1,11 +1,19 @@
 package com.ticketmaster.model;
 
 enum Status {
-    OPEN,
-    IN_PROGRESS,
-    PENDING,
-    PENDING_APPROVAL,
-    RESOLVED
-}
+    OPEN ("Open"),
+    IN_PROGRESS ("In Progress"),
+    PENDING ("Pending"),
+    PENDING_APPROVAL ("Pending Approval"),
+    RESOLVED ("Resolved");
 
-//string -> In Progress
+    private final String status;
+
+    Status(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+}

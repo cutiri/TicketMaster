@@ -18,6 +18,7 @@ abstract class Ticket {
     private Team teamAssigned;
     private User userAssigned;
     private User createdBy;
+    private int totalTimeSpentInMinutes;
     private final Collection<Comment> comments = new LinkedList<>();
 
     public Ticket(String title, String description, Priority priority, Location location, LocalDateTime createdAt) {
@@ -29,7 +30,7 @@ abstract class Ticket {
         setPriority(priority);
         setLocation(location);
         setTeamAssigned(location.getSupportTeam());
-        setUserAssigned(teamAssigned.getRandomUser());
+        setUserAssigned(teamAssigned.getFirstUser());
     }
 
     public int getId() {
@@ -112,14 +113,41 @@ abstract class Ticket {
         this.createdBy = createdBy;
     }
 
+    public int getTotalTimeSpentInMinutes() {
+        return totalTimeSpentInMinutes;
+    }
+
+    public void setTotalTimeSpentInMinutes(int totalTimeSpentInMinutes) {
+        this.totalTimeSpentInMinutes = totalTimeSpentInMinutes;
+    }
+
     public Collection<Comment> getComments() {
         return comments;
     }
 
     public void addComment(Comment comment) {
         comments.add(comment);
+        totalTimeSpentInMinutes += comment.getTimeSpentInMinutes();
     }
 
     // abstract method
-    public abstract void close();
+    public abstract void close() throws InvalidActionException;
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + getId() +
+                ", title='" + getTitle() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", createdAt=" + getCreatedAt() +
+                ", status=" + getStatus() +
+                ", priority=" + getPriority() +
+                ", location=" + getLocation().getName() +
+                ", teamAssigned=" + getTeamAssigned().getName() +
+                ", userAssigned=" + getUserAssigned().getTeam() +
+                ", createdBy=" + getCreatedBy().getLogin() +
+                ", totalTimeSpentInMinutes=" + getTotalTimeSpentInMinutes() +
+                ", comments=" + getComments() +
+                '}';
+    }
 }

@@ -1,12 +1,12 @@
 package com.ticketmaster.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.TreeSet;
 
 class Team {
     private String name;
     private Location locatedAt;
-    private List<User> members = new ArrayList<>();
+    private final Set<User> members = new TreeSet<>(Comparator.comparing(User::getLogin));
 
     public Team(String name, Location locatedAt) {
         setName(name);
@@ -29,13 +29,28 @@ class Team {
         this.locatedAt = locatedAt;
     }
 
-    public List<User> getMembers() {
+    public Set<User> getMembers() {
         return members;
     }
 
-    // add member
+    public void addMember(User user) throws InvalidActionException{
+        if (members.contains(user)) {
+            throw new InvalidActionException(String.format("User with login %s already exist.", user.getLogin()));
+        } else {
+            members.add(user);
+        }
+    }
 
-    public User getRandomUser() {
-        return members.size() > 0 ? members.get(0) : null;
+    public User getFirstUser() {
+        Iterator<User> iterator = members.iterator();
+        return iterator.next();
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + getName() + '\'' +
+                ", locatedAt=" + getLocatedAt() .getName()+
+                '}';
     }
 }

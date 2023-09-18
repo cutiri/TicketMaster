@@ -4,9 +4,8 @@ class Location {
     private String name;
     private Team supportTeam;
 
-    public Location(String name, Team supportTeam) {
+    public Location(String name) {
         setName(name);
-        setSupportTeam(supportTeam);
     }
 
     public String getName() {
@@ -23,5 +22,13 @@ class Location {
 
     public void setSupportTeam(Team supportTeam) {
         this.supportTeam = supportTeam;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "name='" + getName() + '\'' +
+                ", supportTeam=" + getSupportTeam().getName() +
+                '}';
     }
 }

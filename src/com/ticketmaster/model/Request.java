@@ -1,6 +1,7 @@
 package com.ticketmaster.model;
 
 import java.time.LocalDateTime;
+import static com.ticketmaster.model.Status.RESOLVED;
 
 class Request extends Ticket{
     private User approver;
@@ -29,8 +30,31 @@ class Request extends Ticket{
     }
 
     @Override
-    public void close() {
-        System.out.println("Closing Request");
-        System.out.println("Order has been placed!");
+    public void close() throws InvalidActionException {
+        if (isApproved()) {
+            setStatus(RESOLVED);
+        } else {
+            throw new InvalidActionException("Pending Approval, request can not be closed.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + getId() +
+                ", title='" + getTitle() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", createdAt=" + getCreatedAt() +
+                ", status=" + getStatus() +
+                ", priority=" + getPriority() +
+                ", location=" + getLocation().getName() +
+                ", teamAssigned=" + getTeamAssigned().getName() +
+                ", userAssigned=" + getUserAssigned().getTeam() +
+//                ", createdBy=" + getCreatedBy().getLogin() +
+                ", totalTimeSpentInMinutes=" + getTotalTimeSpentInMinutes() +
+                ", comments=" + getComments() +
+                ", approver=" + getApprover() +
+                ", approved=" + isApproved() +
+                '}';
     }
 }
