@@ -70,6 +70,7 @@ public class User {
 
     @Override
     public String toString() {
+        System.out.println("HELLO");
         return "User{" +
                 "login='" + getLogin() + '\'' +
                 ", team=" + getTeam().getName() +

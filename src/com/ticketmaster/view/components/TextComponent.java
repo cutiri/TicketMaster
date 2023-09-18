@@ -3,7 +3,7 @@ package com.ticketmaster.view.components;
 import com.ticketmaster.view.utils.Console;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 
-class TextComponent implements PassiveConsoleComponent{
+public class TextComponent implements PassiveConsoleComponent{
     private String text;
     private ConsoleTextColor textColor = ConsoleTextColor.DEFAULT;
     private boolean isHidden = false;

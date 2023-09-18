@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-class SheetComponent implements PassiveConsoleComponent{
+public class SheetComponent implements PassiveConsoleComponent{
     private Map<String, Integer> headerList = new TreeMap<>();
     private List<List<ConsoleText>> contentMap = new ArrayList<>();
 
