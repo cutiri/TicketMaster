@@ -27,7 +27,7 @@ public class TroubleTicketTest {
     @Before
     public void setUp() throws InvalidActionException {
         instantiateUserTeamLocation();
-        testTicket = TicketFactory.createTicket("Printer Issue", "Printer jammed.", MEDIUM, location, LocalDateTime.now());
+        testTicket = TicketFactory.createTicket("Printer Issue", "Printer jammed.", MEDIUM, location, LocalDateTime.now(), user);
     }
 
     @Test(expected = InvalidActionException.class)

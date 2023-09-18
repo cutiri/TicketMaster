@@ -3,7 +3,7 @@ package com.ticketmaster.model;
 import java.util.*;
 import java.util.TreeSet;
 
-class Team {
+public class Team {
     private String name;
     private Location locatedAt;
     private final Set<User> members = new TreeSet<>(Comparator.comparing(User::getLogin));
@@ -11,6 +11,7 @@ class Team {
     public Team(String name, Location locatedAt) {
         setName(name);
         setLocatedAt(locatedAt);
+        locatedAt.setSupportTeam(this);
     }
 
     public String getName() {
