@@ -1,8 +1,11 @@
 package com.ticketmaster.model;
 
+import com.ticketmaster.view.utils.ConsoleText;
+import com.ticketmaster.view.utils.ConsoleTextBackgroundColor;
+import com.ticketmaster.view.utils.ConsoleTextColor;
+
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 
 import static com.ticketmaster.model.Status.*;
 
@@ -32,6 +35,38 @@ public abstract class Ticket {
         setTeamAssigned(location.getSupportTeam());
         setUserAssigned(teamAssigned.getFirstUser());
         setCreatedBy(createdBy);
+    }
+
+    public static Map<String, Integer> getHeaders(){
+        Map<String, Integer> headers = new LinkedHashMap<>();
+        headers.put("Title", 20);
+        headers.put("User", 12);
+        headers.put("Date", 10);
+        headers.put("Priority", 10);
+        return headers;
+    }
+
+    public List<ConsoleText> getRowData(){
+        List<ConsoleText> rawData = new ArrayList<>();
+        rawData.add(new ConsoleText(this.title));
+        rawData.add(new ConsoleText(this.createdBy.getLogin()));
+        rawData.add(new ConsoleText(this.createdAt.toString()));
+
+        ConsoleText sev = new ConsoleText(this.priority.getPriority());
+        if(this.priority == Priority.HIGH) {
+            sev.setConsoleTextBackgroundColor(ConsoleTextBackgroundColor.RED);
+            sev.setConsoleTextColor(ConsoleTextColor.BLACK);
+        }
+        if(this.priority == Priority.MEDIUM) {
+            sev.setConsoleTextBackgroundColor(ConsoleTextBackgroundColor.YELLOW);
+            sev.setConsoleTextColor(ConsoleTextColor.BLACK);
+        }
+        if(this.priority == Priority.LOW) {
+            sev.setConsoleTextBackgroundColor(ConsoleTextBackgroundColor.GREEN);
+            sev.setConsoleTextColor(ConsoleTextColor.BLACK);
+        }
+        rawData.add(sev);
+        return rawData;
     }
 
     public int getId() {
