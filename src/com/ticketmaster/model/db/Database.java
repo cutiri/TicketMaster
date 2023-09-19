@@ -58,8 +58,9 @@ public class Database {
         User william = new User("william", "william_password", las2Team);
         User michael = new User("michael", "michael_password", las3Team);
         User sam = new User("samuel", "samuel_password", las3Team);
+        User dummy = new User("a", "a", las3Team);
 
-        userList.addAll(List.of(jack, jason, peter, william, michael, sam));
+        userList.addAll(List.of(jack, jason, peter, william, michael, sam, dummy));
 
         ticketList.addAll(List.of(
                 TicketFactory.createTicket("Printer Issue", "Printer jammed.", HIGH, las1, LocalDateTime.of(2023, 7, 2, 13, 15, 44), jack),
