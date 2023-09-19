@@ -24,6 +24,10 @@ public class ConsoleText {
         this.consoleTextBackgroundColor = consoleTextBackgroundColor;
     }
 
+    public int length(){
+        return text.length();
+    }
+
     @Override
     public String toString(){
         return text;
