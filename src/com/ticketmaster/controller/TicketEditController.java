@@ -16,18 +16,43 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
     private Ticket ticket;
     private Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
-    private TextComponent ticketNumber = new TextComponent();
-    private ConsoleView ticketEditView = new ConsoleView();
+    private final TextComponent ticketNumber = new TextComponent();
+    private final TextComponent ticketTitle = new TextComponent();
+    private final TextComponent ticketDescription = new TextComponent();
+    private final TextComponent ticketCreatedAt = new TextComponent();
+    private final TextComponent ticketStatus = new TextComponent();
+    private final TextComponent ticketPriority = new TextComponent();
+    private final TextComponent ticketLocation = new TextComponent();
+    private final TextComponent ticketTeamAssigned = new TextComponent();
+    private final TextComponent ticketUserAssigned = new TextComponent();
+    private final TextComponent ticketCreatedBy = new TextComponent();
+    private final TextComponent ticketTimeSpent = new TextComponent();
+    private final TextComponent ticketComments = new TextComponent();
+    private final ConsoleView ticketEditView = new ConsoleView();
 
     public TicketEditController() {
         ticketEditView.addPassiveComponents(ticketNumber);
-        ticketEditView.addInputCollector(new InputCollectorRegex("Edit", "", ""));
+        ticketEditView.addPassiveComponents(ticketTitle);
+        ticketEditView.addPassiveComponents(ticketDescription);
+        ticketEditView.addPassiveComponents(ticketCreatedAt);
+        ticketEditView.addPassiveComponents(ticketStatus);
+        ticketEditView.addPassiveComponents(ticketPriority);
+        ticketEditView.addPassiveComponents(ticketLocation);
+        ticketEditView.addPassiveComponents(ticketTeamAssigned);
+        ticketEditView.addPassiveComponents(ticketUserAssigned);
+        ticketEditView.addPassiveComponents(ticketCreatedBy);
+        ticketEditView.addPassiveComponents(ticketTimeSpent);
+        ticketEditView.addPassiveComponents(ticketComments);
+
+
+        ticketEditView.addInputCollector(new InputCollectorRegex("Change [P]riority: ", "", ""));
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
     }
 
     private void changePriority(String s) throws InvalidActionException {
         ticket.setPriority(new PrioritySelectorController().run(ticket.getPriority()));
+        System.out.println(ticket);
     }
 
     @Override
@@ -35,7 +60,18 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
         this.ticket = ticket;
 
-        ticketNumber.setText("Ticket Number: " + ticket.getId());
+        ticketNumber.setText("Id: " + ticket.getId());
+        ticketTitle.setText("Title: " + ticket.getTitle());
+        ticketDescription.setText("Description: " + ticket.getDescription());
+        ticketCreatedAt.setText("Created At: " + ticket.getCreatedAt().toString());
+        ticketStatus.setText("Status: " + ticket.getStatus().name());
+        ticketPriority.setText("Priority: " + ticket.getPriority().name());
+        ticketLocation.setText("Location: " + ticket.getLocation().getName());
+        ticketTeamAssigned.setText("Team Assigned: " + ticket.getTeamAssigned().getName());
+        ticketUserAssigned.setText("User Assigned: " + ticket.getUserAssigned().getLogin());
+        ticketCreatedBy.setText("Created By: " + ticket.getCreatedBy().getLogin());
+        ticketTimeSpent.setText("Time Spent: " + ticket.getTotalTimeSpentInMinutes() + " Minutes");
+        ticketComments.setText("Comments: " + ticket.getComments());
 
         DialogResult result = DialogResult.AWAITING;
 

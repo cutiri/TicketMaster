@@ -1,9 +1,14 @@
 package com.ticketmaster.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum Priority {
-    LOW ("Low"),
-    MEDIUM ("Medium"),
-    HIGH ("High");
+    LOW("Low"),
+    MEDIUM("Medium"),
+    HIGH("High");
 
     private final String priority;
 
@@ -19,4 +24,9 @@ public enum Priority {
         return "HIGH, MEDIUM, LOW";
     }
 
+    public static List<String> getPriorityStringList() {
+        return Arrays.stream(Priority.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
 }
