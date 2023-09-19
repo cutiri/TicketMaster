@@ -27,7 +27,6 @@ class TicketQueueController implements ControllerT<Object, User>{
     public TicketQueueController(){
         super();
         this.ticketQueueView.addPassiveComponents(ticketsSheet);
-        //this.ticketQueueView.addPassiveComponents(bottomBar);
         this.ticketQueueView.addInputCollector(inputCollector);
 
         decisionMap.put(RegexSelector.NUMBER_1_TO_20.getRegex(), this::openTableElement);
@@ -82,7 +81,6 @@ class TicketQueueController implements ControllerT<Object, User>{
         ticketsSheet.setCurrentPage(this.currentPage);
         ticketsSheet.setTotalPages(this.numberOfPages);
         ticketsSheet.setTotalRows(this.ticketNumber);
-        //bottomBar.setText(String.format("          Pages: %s/%s   Tickets: %s", currentPage, numberOfPages, ticketNumber));
     }
 
     private void openTicketNumber(String input){
