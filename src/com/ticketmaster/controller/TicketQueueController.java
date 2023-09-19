@@ -16,6 +16,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     private int currentPage = 1;
     private int numberOfPages;
     private int ticketNumber;
+    private User user;
 
     ConsoleView ticketQueueView = new ConsoleView();
     private SheetComponent ticketsSheet = new SheetComponent();
@@ -27,7 +28,6 @@ class TicketQueueController implements ControllerT<Object, User>{
     public TicketQueueController(){
         super();
         this.ticketQueueView.addPassiveComponents(ticketsSheet);
-        this.ticketQueueView.addPassiveComponents(bottomBar);
         this.ticketQueueView.addInputCollector(inputCollector);
 
         decisionMap.put(RegexSelector.NUMBER_1_TO_20.getRegex(), this::openTableElement);
@@ -39,6 +39,7 @@ class TicketQueueController implements ControllerT<Object, User>{
 
     @Override
     public Object run(User user) throws InvalidActionException {
+        this.user = user;
         DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE){
             initializeAllValues();
@@ -51,7 +52,6 @@ class TicketQueueController implements ControllerT<Object, User>{
                 decisionMap.get(regex).callback(input);
             }
         }
-
 
         return null;
     }
@@ -73,7 +73,15 @@ class TicketQueueController implements ControllerT<Object, User>{
         }
 
         ticketsSheet.setSheetComponentContent(Ticket.getHeaders(), data);
-        bottomBar.setText(String.format("          Pages: %s/%s   Tickets: %s", currentPage, numberOfPages, ticketNumber));
+        ticketsSheet.setBannerMessage(new ConsoleMultiColorText(
+                new ConsoleText("Welcome: "),
+                new ConsoleText(user.getLogin(), ConsoleTextColor.RED),
+                new ConsoleText(", "),
+                new ConsoleText("TICKET QUEUE.", ConsoleTextColor.CYAN)
+        ));
+        ticketsSheet.setCurrentPage(this.currentPage);
+        ticketsSheet.setTotalPages(this.numberOfPages);
+        ticketsSheet.setTotalRows(this.ticketNumber);
     }
 
     private void openTicketNumber(String input) throws InvalidActionException {
