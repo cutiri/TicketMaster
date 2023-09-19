@@ -14,4 +14,9 @@ public enum Priority {
     public String getPriority() {
         return priority;
     }
+
+    public static String getPriorities() {
+        return "HIGH, MEDIUM, LOW";
+    }
+
 }
