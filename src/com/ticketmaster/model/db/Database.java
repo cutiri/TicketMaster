@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import static com.ticketmaster.model.Priority.*;
 import static com.ticketmaster.model.Status.*;
 
-class Database {
+public class Database {
 
     private static final List<User> userList = new ArrayList<>();
     private static final List<Team> teamList = new ArrayList<>();

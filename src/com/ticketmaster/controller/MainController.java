@@ -1,5 +1,6 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Location;
 import com.ticketmaster.model.Team;
 import com.ticketmaster.model.User;
@@ -15,7 +16,7 @@ class MainController implements ControllerT<Object, Object> {
     private TicketQueueController ticketQueueController = new TicketQueueController();
 
     @Override
-    public Object run(Object o) {
+    public Object run(Object o){
         ConsoleView mainView = new ConsoleView();
 
         mainView.addPassiveComponents(new TextComponent(
@@ -39,7 +40,7 @@ class MainController implements ControllerT<Object, Object> {
         mainView.addInputCollector(new InputCollectorRegex("Enter password, leave it blank to go back: ", "", "", RegexSelector.ANYTHING.getRegex()));
 
 
-        DialogResult result =DialogResult.AWAITING;
+        DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE){
             result = mainView.show();
 
@@ -48,14 +49,19 @@ class MainController implements ControllerT<Object, Object> {
                 String password = mainView.getUserInputs().get(1);
 
                 //FAKE USER, TODO, REPLACE WITH A REAL ONE
-                User user = new User("aav", "123", new Team("LAS1-OTS", new Location("LAS1")));
-                if(user != null){
-                    mainViewBadUsernamePassword.hide();
-                    //Calling the TicketQueue controller to run, passing the user as a parameter
-                    ticketQueueController.run(user);
-                }else{
-                    mainViewBadUsernamePassword.unHide();
-                    continue;
+                try {
+                    User user = new User("aav", "123", new Team("LAS1-OTS", new Location("LAS1")));
+
+                    if(user != null){
+                        mainViewBadUsernamePassword.hide();
+                        //Calling the TicketQueue controller to run, passing the user as a parameter
+                        ticketQueueController.run(user);
+                    }else{
+                        mainViewBadUsernamePassword.unHide();
+                        continue;
+                    }
+                }catch (Exception e){
+
                 }
             }
         }

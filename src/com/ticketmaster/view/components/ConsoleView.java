@@ -48,7 +48,7 @@ public class ConsoleView extends ActiveConsoleComponent {
             DialogResult previousDialogResult = inputCollector.getCurrentState();
             result = inputCollector.show();
 
-            if(result != DialogResult.SUCCESS || previousDialogResult == DialogResult.INPUT_ERROR)
+            if(result != DialogResult.SUCCESS || previousDialogResult == DialogResult.INPUT_ERROR || result == DialogResult.ESCAPE)
                 return result;
         }
 

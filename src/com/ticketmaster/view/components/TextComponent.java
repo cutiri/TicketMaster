@@ -2,12 +2,14 @@ package com.ticketmaster.view.components;
 
 import com.ticketmaster.view.utils.Console;
 import com.ticketmaster.view.utils.ConsoleTextColor;
+import org.w3c.dom.Text;
 
 public class TextComponent implements PassiveConsoleComponent{
     private String text;
     private ConsoleTextColor textColor = ConsoleTextColor.DEFAULT;
     private boolean isHidden = false;
 
+    public TextComponent(){}
 
     public TextComponent(String text){
         this.text = text;
@@ -35,5 +37,13 @@ public class TextComponent implements PassiveConsoleComponent{
 
     public void unHide(){
         isHidden = false;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setTextColor(ConsoleTextColor textColor) {
+        this.textColor = textColor;
     }
 }

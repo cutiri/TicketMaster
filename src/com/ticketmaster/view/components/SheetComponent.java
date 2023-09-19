@@ -12,17 +12,21 @@ public class SheetComponent implements PassiveConsoleComponent{
     private Map<String, Integer> headerList = new TreeMap<>();
     private List<List<ConsoleText>> contentMap = new ArrayList<>();
 
-    public SheetComponent(Map<String, Integer> headerList, List<List<ConsoleText>> content){
-        updateSheetComponentContent(headerList, content);
+    public SheetComponent(){
+
     }
 
-    public void updateSheetComponentContent(List<List<ConsoleText>> content){
+    public SheetComponent(Map<String, Integer> headerList, List<List<ConsoleText>> content){
+        setSheetComponentContent(headerList, content);
+    }
+
+    public void setSheetComponentContent(List<List<ConsoleText>> content){
         this.contentMap = content;
     }
 
-    public void updateSheetComponentContent(Map<String, Integer> headerList, List<List<ConsoleText>> content){
+    public void setSheetComponentContent(Map<String, Integer> headerList, List<List<ConsoleText>> content){
         this.headerList = headerList;
-        updateSheetComponentContent(content);
+        setSheetComponentContent(content);
     }
 
     private void printHeaders(){
