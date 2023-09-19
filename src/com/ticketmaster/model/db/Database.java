@@ -24,6 +24,13 @@ public class Database {
 
     }
 
+    public static Ticket findTicketById(int ticketNumber) {
+        return ticketList.stream()
+                .filter(ticket -> ticket.getId() == ticketNumber)
+                .findFirst()
+                .orElse(null);
+    }
+
     private void addLocations() {
 
     }

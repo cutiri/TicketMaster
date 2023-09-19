@@ -1,5 +1,6 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
 import com.ticketmaster.model.db.Database;
@@ -37,7 +38,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     }
 
     @Override
-    public Object run(User user) {
+    public Object run(User user) throws InvalidActionException {
         DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE){
             initializeAllValues();
@@ -75,9 +76,15 @@ class TicketQueueController implements ControllerT<Object, User>{
         bottomBar.setText(String.format("          Pages: %s/%s   Tickets: %s", currentPage, numberOfPages, ticketNumber));
     }
 
-    private void openTicketNumber(String input){
-        System.out.println(input);
-        System.out.println("openTicketNumber");
+    private void openTicketNumber(String input) throws InvalidActionException {
+        String ticketNumberText = input.toLowerCase().replace("t", "");
+        int ticketNumber = Integer.parseInt(ticketNumberText);
+
+        Ticket ticket = Database.findTicketById(ticketNumber);
+
+        TicketEditController ticketEditController = new TicketEditController();
+        System.out.println(ticket);
+        ticketEditController.run(ticket);
     }
 
     private void openTableElement(Object input){
