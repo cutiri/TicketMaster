@@ -17,6 +17,7 @@ class MainController implements ControllerT<Object, Object> {
 
     @Override
     public Object run(Object o){
+
         ConsoleView mainView = new ConsoleView();
 
         mainView.addPassiveComponents(new TextComponent(

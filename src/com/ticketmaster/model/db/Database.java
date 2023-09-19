@@ -4,6 +4,7 @@ import com.ticketmaster.model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -97,7 +98,7 @@ public class Database {
     }
 
     public static List<Ticket> allTickets(){
-        return ticketList;
+        return Collections.unmodifiableList(ticketList);
     }
 
     public static List<Ticket> findTicketsByLocation(String location) {
@@ -136,10 +137,77 @@ public class Database {
                 .collect(Collectors.toList());
     }
 
-    public static List<Ticket> sortTicketsByDate() {
+    public static List<Ticket> sortTicketsByCreationDateOldToNew() {
         return ticketList.stream()
                 .sorted(Comparator.comparing(Ticket::getCreatedAt))
                 .collect(Collectors.toList());
+    }
+
+    public static List<Ticket> sortTicketsByCreationDateNewToOld() {
+        return ticketList.stream()
+                .sorted(Comparator.comparing(Ticket::getCreatedAt, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Ticket> sortTicketsByCreationDateOldToNewFromTo(int from, int to) {
+        if (from >= 0 && to <= ticketList.size()) {
+            return sortTicketsByCreationDateOldToNew().subList(from-1, to-1);
+        } else {
+            throw new IllegalArgumentException("Out of range values");
+        }
+    }
+
+    public static List<Ticket> sortTicketsByCreationDateNewToOldFromTo(int from, int to) {
+        if (from >= 0 && to <= ticketList.size()) {
+            return sortTicketsByCreationDateNewToOld().subList(from-1, to-1);
+        } else {
+            throw new IllegalArgumentException("Out of range values");
+        }
+    }
+
+    public static List<Ticket> sortByPriorityLowToHigh() {
+        // sort in the order enum declared
+        return ticketList.stream()
+                .sorted(Comparator.comparing(ticket -> ticket.getPriority().ordinal()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Ticket> sortByPriorityHighToLow() {
+        return ticketList.stream()
+                .sorted(Comparator.comparing(ticket -> ticket.getPriority().ordinal(), Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Ticket> sortByPriorityLowToHighFromTo(int from, int to) {
+        if (from >= 0 && to <= ticketList.size()) {
+            return sortByPriorityLowToHigh().subList(from-1, to-1);
+        } else {
+            throw new IllegalArgumentException("Out of range values");
+        }
+    }
+
+    public static List<Ticket> sortByPriorityHighToLowFromTo(int from, int to) {
+        if (from >= 0 && to <= ticketList.size()) {
+            return sortByPriorityHighToLow().subList(from-1, to-1);
+        } else {
+            throw new IllegalArgumentException("Out of range values");
+        }
+    }
+
+    public static List<Ticket> findTroubleTickets() {
+        return ticketList.stream()
+                .filter(ticket -> ticket.getClass().equals(TroubleTicket.class))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Ticket> findRequests() {
+        return ticketList.stream()
+                .filter(ticket -> ticket.getClass().equals(Request.class))
+                .collect(Collectors.toList());
+    }
+
+    public static void addTicket(Ticket ticket) {
+        ticketList.add(ticket);
     }
 
 }
