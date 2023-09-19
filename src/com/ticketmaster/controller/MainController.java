@@ -4,12 +4,17 @@ import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Location;
 import com.ticketmaster.model.Team;
 import com.ticketmaster.model.User;
+import com.ticketmaster.model.db.Database;
 import com.ticketmaster.view.components.ConsoleView;
+import com.ticketmaster.view.components.InputCollectorList;
 import com.ticketmaster.view.components.InputCollectorRegex;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
+
+import javax.xml.crypto.Data;
+import java.util.List;
 
 class MainController implements ControllerT<Object, Object> {
 
@@ -37,6 +42,7 @@ class MainController implements ControllerT<Object, Object> {
         TextComponent mainViewBadUsernamePassword = new TextComponent("Wrong username or password, try again.", ConsoleTextColor.RED, true);
         mainView.addPassiveComponents(mainViewBadUsernamePassword);
 
+
         mainView.addInputCollector(new InputCollectorRegex("Enter username, leave it blank to go back: ", "Invalid username, it cannot contain numbers", "", RegexSelector.NO_NUMBERS.getRegex()));
         mainView.addInputCollector(new InputCollectorRegex("Enter password, leave it blank to go back: ", "", "", RegexSelector.ANYTHING.getRegex()));
 
@@ -51,8 +57,8 @@ class MainController implements ControllerT<Object, Object> {
 
                 //FAKE USER, TODO, REPLACE WITH A REAL ONE
                 try {
-                    User user = new User("aav", "123", new Team("LAS1-OTS", new Location("LAS1")));
-
+                    //User user = new User("aav", "123", new Team("LAS1-OTS", new Location("LAS1")));
+                    User user = Database.authenticate(username, password);
                     if(user != null){
                         mainViewBadUsernamePassword.hide();
                         //Calling the TicketQueue controller to run, passing the user as a parameter

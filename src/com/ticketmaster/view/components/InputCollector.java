@@ -21,12 +21,16 @@ public abstract class InputCollector extends ActiveConsoleComponent {
         this.escapeText = escapeText;
     }
 
-    @Override
-    public final DialogResult show(){
+    protected void print(){
         if(getCurrentState() == DialogResult.INPUT_ERROR)
             Console.printNewLine(errorMsg, ConsoleTextColor.RED);
 
         Console.printText(text);
+    }
+
+    @Override
+    public final DialogResult show(){
+        print();
 
         if(getCurrentState() != DialogResult.SUCCESS) {
             setCollectedInput(scanner.nextLine());
