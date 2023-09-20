@@ -3,7 +3,7 @@ package com.ticketmaster.controller;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.InputCollectorRegex;
+import com.ticketmaster.view.components.RegexInputCollector;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.CallBackStringOperator;
 import com.ticketmaster.view.utils.DialogResult;
@@ -45,7 +45,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
         ticketEditView.addPassiveComponents(ticketComments);
 
 
-        ticketEditView.addInputCollector(new InputCollectorRegex("Change [P]riority: ", "", ""));
+        ticketEditView.addInputCollector(new RegexInputCollector("Change [P]riority: ", "", ""));
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
     }

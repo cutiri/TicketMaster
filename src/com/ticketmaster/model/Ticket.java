@@ -39,15 +39,17 @@ public abstract class Ticket {
 
     public static Map<String, Integer> getHeaders(){
         Map<String, Integer> headers = new LinkedHashMap<>();
+        headers.put("ID", 5);
         headers.put("Title", 20);
         headers.put("User", 12);
-        headers.put("Date", 10);
+        headers.put("Date", 30);
         headers.put("Priority", 10);
         return headers;
     }
 
     public List<ConsoleText> getRowData(){
         List<ConsoleText> rawData = new ArrayList<>();
+        rawData.add(new ConsoleText(String.valueOf(this.getId())));
         rawData.add(new ConsoleText(this.title));
         rawData.add(new ConsoleText(this.createdBy.getLogin()));
         rawData.add(new ConsoleText(this.createdAt.toString()));

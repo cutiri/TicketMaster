@@ -83,8 +83,9 @@ public class Console {
 
     public static void printNewLine(ConsoleMultiColorText consoleMultiColorText){
         for (ConsoleText consoleText : consoleMultiColorText.getTextList()){
-            printNewLine(consoleText.toString(), consoleText.getConsoleTextColor(), consoleText.getConsoleTextBackgroundColor());
+            printText(consoleText.toString(), consoleText.getConsoleTextColor(), consoleText.getConsoleTextBackgroundColor());
         }
+        goToNextLine();
     }
 
     public static void printNewLine(ConsoleText consoleText, int length){

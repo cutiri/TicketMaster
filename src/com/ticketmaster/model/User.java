@@ -6,6 +6,7 @@ public class User {
     private String login;
     private String password;
     private Team team;
+    private String fullName;
     boolean isActive;
 
     public User(String login, String password, Team team) throws InvalidActionException {
@@ -66,6 +67,14 @@ public class User {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override
