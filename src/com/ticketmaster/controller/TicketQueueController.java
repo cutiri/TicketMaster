@@ -90,8 +90,7 @@ class TicketQueueController implements ControllerT<Object, User>{
 
         Ticket ticket = Database.findTicketById(ticketNumber);
 
-        TicketEditController ticketEditController = new TicketEditController();
-//        System.out.println(ticket);
+        TicketEditController ticketEditController = new TicketEditController(user);
         ticketEditController.run(ticket);
     }
 

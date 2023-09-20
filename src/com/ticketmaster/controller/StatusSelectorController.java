@@ -2,20 +2,21 @@ package com.ticketmaster.controller;
 
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Priority;
+import com.ticketmaster.model.Status;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.InputCollectorList;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.DialogResult;
 
-class PrioritySelectorController implements ControllerT<Priority, Priority> {
+class StatusSelectorController implements ControllerT<Status, Status>{
 
     private final ConsoleView consoleView = new ConsoleView();
 
 
     @Override
-    public Priority run(Priority priority) throws InvalidActionException {
-        consoleView.addPassiveComponents(new TextComponent("Current Priority: " + priority));
-        consoleView.addInputCollector(new InputCollectorList("Change Priority to " + Priority.getPriorities() + " :", "Invalid Priority, try again", "", Priority.getPriorityStringList()));
+    public Status run(Status status) throws InvalidActionException {
+        consoleView.addPassiveComponents(new TextComponent("Current Status: " + status));
+        consoleView.addInputCollector(new InputCollectorList("Change Status to " + Status.getAllStatus() + ": ", "Invalid Status, try again", "", Status.getStatusStringList()));
 
         DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE) {
@@ -24,7 +25,7 @@ class PrioritySelectorController implements ControllerT<Priority, Priority> {
             if (result == DialogResult.SUCCESS) {
                 String input = consoleView.getUserInputs().get(0);
 
-                return Priority.valueOf(input);
+                return Status.valueOf(input);
             }
         }
 

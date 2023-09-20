@@ -1,8 +1,9 @@
 package com.ticketmaster.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-class Comment {
+public class Comment {
     private String text;
     private LocalDateTime commentedAt;
     private String userLogin;
@@ -50,11 +51,10 @@ class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" +
-                "text='" + text + '\'' +
-                ", commentedAt=" + getCommentedAt() +
-                ", userLogin='" + getUserLogin() + '\'' +
-                ", timeSpentInMinutes=" + getTimeSpentInMinutes() +
-                '}';
+        return String.format("\n -> " +
+                "Commented At: %s\n" +
+                "    user: %s\n" +
+                "    Time Spent: %d Minutes\n" +
+                "    %s\n", LocalDateTime.parse(getCommentedAt().toString()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), getUserLogin(), getTimeSpentInMinutes(), getText());
     }
 }

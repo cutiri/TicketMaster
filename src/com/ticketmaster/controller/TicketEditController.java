@@ -1,7 +1,9 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.model.Comment;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Ticket;
+import com.ticketmaster.model.User;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.InputCollectorRegex;
 import com.ticketmaster.view.components.TextComponent;
@@ -9,13 +11,17 @@ import com.ticketmaster.view.utils.CallBackStringOperator;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
 class TicketEditController implements ControllerT<Object, Ticket>{
 
+    private User user;
     private Ticket ticket;
-    private Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
+    private final Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
     private final TextComponent ticketNumber = new TextComponent();
     private final TextComponent ticketTitle = new TextComponent();
     private final TextComponent ticketDescription = new TextComponent();
@@ -30,7 +36,8 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     private final TextComponent ticketComments = new TextComponent();
     private final ConsoleView ticketEditView = new ConsoleView();
 
-    public TicketEditController() {
+    public TicketEditController(User user) {
+        this.user = user;
         ticketEditView.addPassiveComponents(ticketNumber);
         ticketEditView.addPassiveComponents(ticketTitle);
         ticketEditView.addPassiveComponents(ticketDescription);
@@ -45,14 +52,49 @@ class TicketEditController implements ControllerT<Object, Ticket>{
         ticketEditView.addPassiveComponents(ticketComments);
 
 
-        ticketEditView.addInputCollector(new InputCollectorRegex("Change [P]riority: ", "", ""));
+        ticketEditView.addInputCollector(new InputCollectorRegex("Update [P]riority, [S]tatus, [C]omment OR\nLeave Blank To return To Ticket Queue: ", "", ""));
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
+        decisionMap.put(RegexSelector.CHARACTER_S.getRegex(), this::changeStatus);
+        decisionMap.put(RegexSelector.CHARACTER_C.getRegex(), this::addComment);
+    }
+
+    private void addComment(String s) {
+        Comment newComment = new AddCommentController().run(user);
+        ticket.addComment(newComment);
+    }
+
+    private void changeStatus(String s) throws InvalidActionException {
+        ticket.setStatus(new StatusSelectorController().run(ticket.getStatus()));
     }
 
     private void changePriority(String s) throws InvalidActionException {
         ticket.setPriority(new PrioritySelectorController().run(ticket.getPriority()));
-        System.out.println(ticket);
+    }
+
+    private String commentStringBuilder(Collection<Comment> comments) {
+        StringBuilder formattedComments = new StringBuilder("\n--------------------------------------------------");
+
+        for (Comment comment: comments) {
+            formattedComments.append(comment);
+        }
+
+        return formattedComments.toString();
+    }
+
+    private void initializeAllValues() {
+        ticketNumber.setText("Id: " + ticket.getId());
+        ticketTitle.setText("Title: " + ticket.getTitle());
+        ticketDescription.setText("Description: " + ticket.getDescription());
+        ticketCreatedAt.setText("Created At: " + LocalDateTime.parse(ticket.getCreatedAt().toString()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        ticketStatus.setText("Status: " + ticket.getStatus().getStatus());
+        ticketPriority.setText("Priority: " + ticket.getPriority().getPriority());
+        ticketLocation.setText("Location: " + ticket.getLocation().getName());
+        ticketTeamAssigned.setText("Team Assigned: " + ticket.getTeamAssigned().getName());
+        ticketUserAssigned.setText("User Assigned: " + ticket.getUserAssigned().getLogin());
+        ticketCreatedBy.setText("Created By: " + ticket.getCreatedBy().getLogin());
+        ticketTimeSpent.setText("Time Spent: " + ticket.getTotalTimeSpentInMinutes() + " Minutes");
+        ticketComments.setText("Comments: " + commentStringBuilder(ticket.getComments()));
     }
 
     @Override
@@ -60,22 +102,10 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
         this.ticket = ticket;
 
-        ticketNumber.setText("Id: " + ticket.getId());
-        ticketTitle.setText("Title: " + ticket.getTitle());
-        ticketDescription.setText("Description: " + ticket.getDescription());
-        ticketCreatedAt.setText("Created At: " + ticket.getCreatedAt().toString());
-        ticketStatus.setText("Status: " + ticket.getStatus().name());
-        ticketPriority.setText("Priority: " + ticket.getPriority().name());
-        ticketLocation.setText("Location: " + ticket.getLocation().getName());
-        ticketTeamAssigned.setText("Team Assigned: " + ticket.getTeamAssigned().getName());
-        ticketUserAssigned.setText("User Assigned: " + ticket.getUserAssigned().getLogin());
-        ticketCreatedBy.setText("Created By: " + ticket.getCreatedBy().getLogin());
-        ticketTimeSpent.setText("Time Spent: " + ticket.getTotalTimeSpentInMinutes() + " Minutes");
-        ticketComments.setText("Comments: " + ticket.getComments());
-
         DialogResult result = DialogResult.AWAITING;
 
         while (result != DialogResult.ESCAPE) {
+            initializeAllValues();
             result = ticketEditView.show();
             String input = ticketEditView.getUserInputs().get(0);
 

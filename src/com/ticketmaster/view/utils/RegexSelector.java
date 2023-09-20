@@ -7,7 +7,9 @@ public enum RegexSelector {
     TICKET_NUMBER("[T][0-9]{4}"),
     PAGE_THEN_ANY_NUMBER("^(?i)page [0-9]+$"),
     CHARACTER_N("^(?i)N"),
-    CHARACTER_P("^(?i)P");
+    CHARACTER_P("^(?i)P"),
+    CHARACTER_S("^(?i)S"),
+    CHARACTER_C("^(?i)C");
 
     private String regex;
 

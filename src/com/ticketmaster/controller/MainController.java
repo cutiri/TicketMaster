@@ -1,20 +1,13 @@
 package com.ticketmaster.controller;
 
-import com.ticketmaster.model.InvalidActionException;
-import com.ticketmaster.model.Location;
-import com.ticketmaster.model.Team;
 import com.ticketmaster.model.User;
 import com.ticketmaster.model.db.Database;
 import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.InputCollectorList;
 import com.ticketmaster.view.components.InputCollectorRegex;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
-
-import javax.xml.crypto.Data;
-import java.util.List;
 
 class MainController implements ControllerT<Object, Object> {
 
