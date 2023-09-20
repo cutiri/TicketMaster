@@ -84,8 +84,8 @@ class TicketQueueController implements ControllerT<Object, User>{
         ticketsSheet.setCurrentPage(this.currentPage);
         ticketsSheet.setTotalPages(this.numberOfPages);
         ticketsSheet.setTotalRows(this.ticketNumber);
-        ticketsSheet.setMultiLineRows(true);
-        ticketsSheet.setRowSeparator(true);
+        //ticketsSheet.setMultiLineRows(true);
+        //ticketsSheet.setRowSeparator(true);
     }
 
     private void openTicketNumber(String input) throws InvalidActionException {

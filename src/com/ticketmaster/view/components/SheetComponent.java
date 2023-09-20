@@ -110,7 +110,7 @@ public class SheetComponent implements PassiveConsoleComponent{
         //for (var row : contentList){
             printRow(List.copyOf(headerMap.values()), contentList.get(i));
             //printRow(List.copyOf(headerMap.values()), row);
-            if(i != contentList.size() - 1)
+            if(hasRowSeparator() && i != contentList.size() - 1)
                 Console.printNewLine(generateHorizontalSeparator().toString());
         }
     }
