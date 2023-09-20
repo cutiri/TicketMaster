@@ -2,8 +2,10 @@ package com.ticketmaster.controller;
 
 import com.ticketmaster.model.User;
 import com.ticketmaster.model.db.Database;
+
 import com.ticketmaster.view.components.*;
 import com.ticketmaster.view.utils.ConsoleText;
+
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;

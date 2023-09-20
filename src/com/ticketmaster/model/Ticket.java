@@ -127,6 +127,12 @@ public abstract class Ticket {
         this.location = location;
     }
 
+    public void updateLocation(Location location) {
+        setLocation(location);
+        setTeamAssigned(getLocation().getSupportTeam());
+        setUserAssigned(getTeamAssigned().getFirstUser());
+    }
+
     public Team getTeamAssigned() {
         return teamAssigned;
     }
@@ -160,7 +166,9 @@ public abstract class Ticket {
     }
 
     public Collection<Comment> getComments() {
-        return comments;
+        List<Comment> reversedComments = new ArrayList<>(comments);
+        Collections.reverse(reversedComments);
+        return reversedComments;
     }
 
     public void addComment(Comment comment) {
