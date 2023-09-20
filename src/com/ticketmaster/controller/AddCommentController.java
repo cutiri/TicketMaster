@@ -4,7 +4,8 @@ import com.ticketmaster.model.Comment;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.User;
 import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.InputCollectorRegex;
+import com.ticketmaster.view.components.RegexInputCollector;
+import com.ticketmaster.view.components.RegexInputCollector;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
@@ -17,8 +18,8 @@ class AddCommentController implements ControllerT<Comment, User>{
     @Override
     public Comment run(User user) throws InvalidActionException {
 
-        consoleView.addInputCollector(new InputCollectorRegex("New Comment: ", "Invalid Comment", ""));
-        consoleView.addInputCollector(new InputCollectorRegex("Time Spent (Minutes): ", "Invalid time, please enter time in minutes again (0 - 99999)", "", RegexSelector.NUMBERS.getRegex()));
+        consoleView.addInputCollector(new RegexInputCollector("New Comment: ", "Invalid Comment", ""));
+        consoleView.addInputCollector(new RegexInputCollector("Time Spent (Minutes): ", "Invalid time, please enter time in minutes again (0 - 99999)", "", RegexSelector.NUMBERS.getRegex()));
 
         DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE) {

@@ -4,7 +4,7 @@ import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Location;
 import com.ticketmaster.model.db.LocationDB;
 import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.InputCollectorRegex;
+import com.ticketmaster.view.components.RegexInputCollector;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
@@ -16,7 +16,7 @@ class UpdateLocationController implements ControllerT<Location, Location>{
 
     @Override
     public Location run(Location location) throws InvalidActionException {
-        updateLocationView.addInputCollector(new InputCollectorRegex("Update Location to (Or leave blank to return to the ticket): ", "Invalid Location, please try again", "", RegexSelector.LOCATION.getRegex()));
+        updateLocationView.addInputCollector(new RegexInputCollector("Update Location to (Or leave blank to return to the ticket): ", "Invalid Location, please try again", "", RegexSelector.LOCATION.getRegex()));
         TextComponent invalidLocationError = new TextComponent("Location does not exist, please try again", ConsoleTextColor.RED, true);
         invalidLocationError.hide();
         updateLocationView.addPassiveComponents(invalidLocationError);
