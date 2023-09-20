@@ -9,7 +9,7 @@ public class RegexInputCollector extends InputCollector {
 
     public RegexInputCollector(String text, String errorMsg, String escapeText) {
         super(text, errorMsg, escapeText);
-        this.regex = "";
+        this.regex = RegexSelector.ANYTHING.getRegex();
     }
 
     public RegexInputCollector(String text, String errorMsg, String escapeText, String regex) {

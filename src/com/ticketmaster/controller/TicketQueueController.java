@@ -35,7 +35,10 @@ class TicketQueueController implements ControllerT<Object, User>{
         decisionMap.put(RegexSelector.PAGE_THEN_ANY_NUMBER.getRegex(), this::goToPage);
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::goToPreviousPage);
         decisionMap.put(RegexSelector.CHARACTER_N.getRegex(), this::goToNextPage);
+        decisionMap.put(RegexSelector.CHARACTER_A.getRegex(), this::createNewTicket);
     }
+
+
 
     @Override
     public Object run(User user) throws InvalidActionException {
@@ -124,5 +127,9 @@ class TicketQueueController implements ControllerT<Object, User>{
 
     private void goToPreviousPage(String input){
         goToPage(String.valueOf(currentPage - 1));
+    }
+
+    private void createNewTicket(String input) {
+        AddTicketController ticketEditController = new AddTicketController(user);
     }
 }
