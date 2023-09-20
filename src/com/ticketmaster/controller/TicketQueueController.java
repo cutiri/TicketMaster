@@ -24,6 +24,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     private TextComponent bottomBar = new TextComponent();
     private MultiTextComponent ticketQueueUserOptions;
     private RegexInputCollector inputCollector = new RegexInputCollector("Enter text here: ", "Invalid option, try again", "", RegexSelector.ANYTHING.getRegex());
+    private TicketQueueFilterController ticketQueueFilterController = new TicketQueueFilterController();
 
     private List<Ticket> ticketList = new ArrayList<>();
     private Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
@@ -164,11 +165,13 @@ class TicketQueueController implements ControllerT<Object, User>{
         Ticket newTicket = new AddTicketController().run(user);
         if (newTicket != null) {
             Database.allTickets().add(newTicket);
+            if(ticketQueueFilterController.getTicketList() != null)
+                this.ticketList = ticketQueueFilterController.getTicketList();
         }
+
     }
 
     private void filterBy(String input) {
-        TicketQueueFilterController ticketQueueFilterController = new TicketQueueFilterController();
         List<Ticket> ticketQueue = ticketQueueFilterController.run(user);
         this.ticketList = ticketQueue;
     }

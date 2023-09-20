@@ -1,9 +1,6 @@
 package com.ticketmaster.controller;
 
-import com.ticketmaster.model.CallBackTicketList;
-import com.ticketmaster.model.InvalidActionException;
-import com.ticketmaster.model.Ticket;
-import com.ticketmaster.model.User;
+import com.ticketmaster.model.*;
 import com.ticketmaster.model.db.Database;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.ListInputCollector;
@@ -29,7 +26,10 @@ class TicketQueueFilterController implements ControllerT<List<Ticket>, User>{
         decisionMap.put("Assigned to me", this::getTicketsAssignedToMe);
         decisionMap.put("Assigned to my team", this::geTicketsAssignedToMyTeam);
         decisionMap.put("Created by me", this::getTicketsCreatedByMe);
+        decisionMap.put("Opened tickets", this::getTicketsOpened);
+        decisionMap.put("Closed tickets", this::getTicketsClosed);
     }
+
 
     @Override
     public List<Ticket> run(User user) throws InvalidActionException {
@@ -51,6 +51,12 @@ class TicketQueueFilterController implements ControllerT<List<Ticket>, User>{
         return result;
     }
 
+    public List<Ticket> getTicketList(){
+        if(listInputCollector == null)
+            return null;
+        return decisionMap.get(listInputCollector.getCollectedInput()).callback();
+    }
+
     private List<Ticket> getTicketsAssignedToMe(){
         return Database.findTicketsByAssignedUser(user);
     }
@@ -61,6 +67,14 @@ class TicketQueueFilterController implements ControllerT<List<Ticket>, User>{
 
     private List<Ticket> getTicketsCreatedByMe(){
         return Database.findTicketsByTicketCreator(user.getLogin());
+    }
+
+    private List<Ticket> getTicketsClosed() {
+        return Database.findTicketsByStatus(Status.RESOLVED);
+    }
+
+    private List<Ticket> getTicketsOpened() {
+        return Database.findTicketsByStatus(Status.OPEN);
     }
 
 }

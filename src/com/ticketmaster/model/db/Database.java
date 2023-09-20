@@ -1,9 +1,6 @@
 package com.ticketmaster.model.db;
 
-import com.ticketmaster.model.Request;
-import com.ticketmaster.model.Ticket;
-import com.ticketmaster.model.TroubleTicket;
-import com.ticketmaster.model.User;
+import com.ticketmaster.model.*;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -79,6 +76,12 @@ public class Database {
     public static List<Ticket> findTicketsByStatus(String status) {
         return ticketList.stream()
                 .filter(ticket -> ticket.getStatus().name().equalsIgnoreCase(status))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Ticket> findTicketsByStatus(Status status) {
+        return ticketList.stream()
+                .filter(ticket -> ticket.getStatus() == status)
                 .collect(Collectors.toList());
     }
 
