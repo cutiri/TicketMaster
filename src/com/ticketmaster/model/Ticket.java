@@ -125,6 +125,12 @@ public abstract class Ticket {
         this.location = location;
     }
 
+    public void updateLocation(Location location) {
+        setLocation(location);
+        setTeamAssigned(getLocation().getSupportTeam());
+        setUserAssigned(getTeamAssigned().getFirstUser());
+    }
+
     public Team getTeamAssigned() {
         return teamAssigned;
     }
