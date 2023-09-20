@@ -5,8 +5,6 @@ import com.ticketmaster.model.Status;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.ListInputCollector;
 import com.ticketmaster.view.components.TextComponent;
-import com.ticketmaster.view.utils.ConsoleText;
-import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 
 class StatusSelectorController implements ControllerT<Status, Status>{

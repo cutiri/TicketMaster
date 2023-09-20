@@ -14,7 +14,7 @@ public class Database {
     private static List<Ticket> ticketList;
 
     public static void loadData() {
-        ticketList = TicketDB.ticketList;
+        ticketList = TicketDB.getTicketDB();
     }
 
     public static Ticket findTicketById(int ticketNumber) {
@@ -37,7 +37,7 @@ public class Database {
     }
 
     public static List<Ticket> allTickets(){
-        return Collections.unmodifiableList(ticketList);
+        return ticketList;
     }
 
     public static List<Ticket> findTicketsByLocation(String location) {

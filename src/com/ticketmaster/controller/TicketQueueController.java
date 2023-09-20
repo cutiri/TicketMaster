@@ -4,6 +4,7 @@ import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
 import com.ticketmaster.model.db.Database;
+import com.ticketmaster.model.db.TicketDB;
 import com.ticketmaster.view.components.*;
 import com.ticketmaster.view.utils.*;
 
@@ -130,6 +131,13 @@ class TicketQueueController implements ControllerT<Object, User>{
     }
 
     private void createNewTicket(String input) {
-        AddTicketController ticketEditController = new AddTicketController(user);
+        Ticket newTicket = new AddTicketController().run(user);
+
+        if (newTicket != null) {
+            Database.allTickets().add(newTicket);
+            System.out.println(Database.allTickets().get(Database.allTickets().size()-1));
+        }  else {
+            System.out.println("Null returned!");
+        }
     }
 }
