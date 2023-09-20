@@ -26,7 +26,6 @@ class AddCommentController implements ControllerT<Comment, User>{
             if (result == DialogResult.SUCCESS) {
                 String text = consoleView.getUserInputs().get(0);
                 int timeSpent = Integer.parseInt(consoleView.getUserInputs().get(1));
-                System.out.println(text + timeSpent + user.getLogin());
 
                 return new Comment(text, user.getLogin(), timeSpent, LocalDateTime.now());
             }

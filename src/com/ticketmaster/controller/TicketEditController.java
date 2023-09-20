@@ -1,13 +1,11 @@
 package com.ticketmaster.controller;
 
-import com.ticketmaster.model.Comment;
-import com.ticketmaster.model.InvalidActionException;
-import com.ticketmaster.model.Ticket;
-import com.ticketmaster.model.User;
+import com.ticketmaster.model.*;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.InputCollectorRegex;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.CallBackStringOperator;
+import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
@@ -34,6 +32,8 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     private final TextComponent ticketCreatedBy = new TextComponent();
     private final TextComponent ticketTimeSpent = new TextComponent();
     private final TextComponent ticketComments = new TextComponent();
+
+
     private final ConsoleView ticketEditView = new ConsoleView();
 
     public TicketEditController(User user) {
@@ -52,11 +52,28 @@ class TicketEditController implements ControllerT<Object, Ticket>{
         ticketEditView.addPassiveComponents(ticketComments);
 
 
-        ticketEditView.addInputCollector(new InputCollectorRegex("Update [P]riority, [S]tatus, [C]omment OR\nLeave Blank To return To Ticket Queue: ", "", ""));
+        ticketEditView.addInputCollector(new InputCollectorRegex("Update [P]riority, [S]tatus, [C]omment, [U]pdate Assigned User, [L]ocation\nOR Leave Blank To return To Ticket Queue: ", "", ""));
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
         decisionMap.put(RegexSelector.CHARACTER_S.getRegex(), this::changeStatus);
         decisionMap.put(RegexSelector.CHARACTER_C.getRegex(), this::addComment);
+        decisionMap.put(RegexSelector.CHARACTER_U.getRegex(), this::updateAssignedUser);
+        decisionMap.put(RegexSelector.CHARACTER_L.getRegex(), this::updateLocation);
+    }
+
+    private void updateLocation(String s) {
+        Location newLocation = new UpdateLocationController().run(ticket.getLocation());
+        if (newLocation != null) {
+            ticket.updateLocation(newLocation);
+        }
+    }
+
+    private void updateAssignedUser(String s) {
+        User newAssignedUser = new UpdateAssignedUserController().run(ticket.getUserAssigned());
+        if (newAssignedUser != null) {
+            ticket.setUserAssigned(newAssignedUser);
+
+        }
     }
 
     private void addComment(String s) {
@@ -65,13 +82,22 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     }
 
     private void changeStatus(String s) throws InvalidActionException {
-        ticket.setStatus(new StatusSelectorController().run(ticket.getStatus()));
+        Status newStatus = new StatusSelectorController().run(ticket.getStatus());
+
+        if(newStatus != null) {
+            ticket.setStatus(newStatus);
+        }
     }
 
     private void changePriority(String s) throws InvalidActionException {
-        ticket.setPriority(new PrioritySelectorController().run(ticket.getPriority()));
+        Priority newPriority = new PrioritySelectorController().run(ticket.getPriority());
+
+        if(newPriority != null) {
+            ticket.setPriority(newPriority);
+        }
     }
 
+    // StringBuilder to convert comment arraylist to proper formatted string for console view
     private String commentStringBuilder(Collection<Comment> comments) {
         StringBuilder formattedComments = new StringBuilder("\n--------------------------------------------------");
 

@@ -14,8 +14,8 @@ class PrioritySelectorController implements ControllerT<Priority, Priority> {
 
     @Override
     public Priority run(Priority priority) throws InvalidActionException {
-        consoleView.addPassiveComponents(new TextComponent("Current Priority: " + priority));
-        consoleView.addInputCollector(new InputCollectorList("Change Priority to " + Priority.getPriorities() + " :", "Invalid Priority, try again", "", Priority.getPriorityStringList()));
+        consoleView.addInputCollector(new InputCollectorList("Change Priority to (Choose from below Or leave blank to return to the ticket): ", "Invalid option, try again", "", Priority.getPriorityStringList()));
+        consoleView.addPassiveComponents(new TextComponent("Current Priority: " + priority.name()));
 
         DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE) {
@@ -27,7 +27,6 @@ class PrioritySelectorController implements ControllerT<Priority, Priority> {
                 return Priority.valueOf(input);
             }
         }
-
         return null;
     }
 }
