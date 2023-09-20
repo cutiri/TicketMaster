@@ -11,7 +11,6 @@ public class TicketMasterApp {
             MainController mainController = new MainController();
             mainController.run(null);
         }catch (Exception e){
-
         }
     }
 }

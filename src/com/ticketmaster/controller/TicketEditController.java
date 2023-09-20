@@ -3,20 +3,16 @@ package com.ticketmaster.controller;
 import com.ticketmaster.model.*;
 import com.ticketmaster.view.components.ConsoleView;
 
-import com.ticketmaster.view.components.ListInputCollector;
 import com.ticketmaster.view.components.RegexInputCollector;
 
-import com.ticketmaster.view.components.ListInputCollector;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.CallBackStringOperator;
-import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -84,7 +80,10 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
     private void addComment(String s) {
         Comment newComment = new AddCommentController().run(user);
-        ticket.addComment(newComment);
+
+        if (newComment != null) {
+            ticket.addComment(newComment);
+        }
     }
 
     private void changeStatus(String s) throws InvalidActionException {

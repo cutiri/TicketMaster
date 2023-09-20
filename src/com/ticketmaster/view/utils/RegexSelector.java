@@ -2,6 +2,7 @@ package com.ticketmaster.view.utils;
 
 public enum RegexSelector {
     ANYTHING(".*"),
+    NON_EMPTY_STRING(".+"),
     NO_NUMBERS("^([^0-9]*)$"),
     NUMBERS("^[1-9]\\d{0,4}$"),
     NUMBER_1_TO_20("^([1-9]|[1][0-9]|20)"),
