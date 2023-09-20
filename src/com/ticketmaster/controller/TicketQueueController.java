@@ -132,12 +132,8 @@ class TicketQueueController implements ControllerT<Object, User>{
 
     private void createNewTicket(String input) {
         Ticket newTicket = new AddTicketController().run(user);
-
         if (newTicket != null) {
             Database.allTickets().add(newTicket);
-            System.out.println(Database.allTickets().get(Database.allTickets().size()-1));
-        }  else {
-            System.out.println("Null returned!");
         }
     }
 }
