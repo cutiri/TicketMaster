@@ -158,7 +158,9 @@ public abstract class Ticket {
     }
 
     public Collection<Comment> getComments() {
-        return comments;
+        List<Comment> reversedComments = new ArrayList<>(comments);
+        Collections.reverse(reversedComments);
+        return reversedComments;
     }
 
     public void addComment(Comment comment) {
