@@ -62,7 +62,7 @@ class MainController implements ControllerT<Object, Object> {
                         continue;
                     }
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         }

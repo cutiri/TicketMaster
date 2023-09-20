@@ -17,6 +17,11 @@ public class User {
         team.addMember(this);
     }
 
+    public User(String login, String password, String name, Team team) throws InvalidActionException {
+        this(login, password, team);
+        setFullName(name);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(getLogin());

@@ -52,13 +52,13 @@ public class Database {
         teamList.add(las2Team);
         teamList.add(las3Team);
 
-        User jack = new User("jack", "jack_password", las1Team);
-        User jason = new User("jason", "jason_password", las1Team);
-        User peter = new User("peter", "peter_password", las2Team);
-        User william = new User("william", "william_password", las2Team);
-        User michael = new User("michael", "michael_password", las3Team);
-        User sam = new User("samuel", "samuel_password", las3Team);
-        User dummy = new User("a", "a", las3Team);
+        User jack = new User("jack", "jack_password", "Jack Sparrow", las1Team);
+        User jason = new User("jason", "jason_password", "Jason Momoa", las1Team);
+        User peter = new User("peter", "peter_password", "Peter Parker", las2Team);
+        User william = new User("william", "william_password", "William Defoe", las2Team);
+        User michael = new User("michael", "michael_password", "Michael Scofield", las3Team);
+        User sam = new User("samuel", "samuel_password", "Samuel Jackson",las3Team);
+        User dummy = new User("a", "a", "SpongeBob SquarePants", las3Team);
 
         userList.addAll(List.of(jack, jason, peter, william, michael, sam, dummy));
 

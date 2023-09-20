@@ -30,6 +30,12 @@ public class Console {
         System.out.print(color.getColorCode() + backgroundColor + line + ConsoleTextColor.RESET.getColorCode());
     }
 
+    public static void printText(String line, ConsoleTextColor color, ConsoleTextBackgroundColor backgroundColor, int length){
+        String format = String.format("%%-%s.%ss", length, length);
+        line = String.format(format, line);
+        System.out.print(color.getColorCode() + backgroundColor + line + ConsoleTextColor.RESET.getColorCode());
+    }
+
     public static void printText(ConsoleText firstConsoleText, ConsoleText... consoleTextArray){
         printText(firstConsoleText.toString(), firstConsoleText.getConsoleTextColor(), firstConsoleText.getConsoleTextBackgroundColor());
         for (ConsoleText consoleText : consoleTextArray){
@@ -40,6 +46,11 @@ public class Console {
     public static void printText(ConsoleText consoleText, int length){
         String format = String.format("%%-%s.%ss", length, length);
         printText(String.format(format, consoleText.toString()), consoleText.getConsoleTextColor(), consoleText.getConsoleTextBackgroundColor());
+    }
+
+    public static void printText(String text, int length){
+        String format = String.format("%%-%s.%ss", length, length);
+        printText(String.format(format, text));
     }
 
     public static void printText(ConsoleMultiColorText consoleMultiColorText, int totalLength){

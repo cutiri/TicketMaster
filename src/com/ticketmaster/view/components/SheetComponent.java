@@ -6,16 +6,20 @@ import com.ticketmaster.view.utils.ConsoleText;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SheetComponent implements PassiveConsoleComponent{
     private Map<String, Integer> headerMap = new TreeMap<>();
     private List<List<ConsoleText>> contentList = new ArrayList<>();
-    private ConsoleMultiColorText bannerMessage;
+    private ConsoleMultiColorText bannerMessage = new ConsoleMultiColorText(new ConsoleText(""));
     private String tableName;
     private int currentPage;
     private int totalPages;
     private int totalRows;
     private int tableWidth;
+    private boolean showHeader = true;
+    private boolean multiLineRows = false;
+    private boolean rowSeparator = false;
 
 
     public SheetComponent(){
@@ -48,8 +52,9 @@ public class SheetComponent implements PassiveConsoleComponent{
 
 
         printBanner(finalSeparator);
-        printHeader(format, horizontalSeparator);
-        printBody(format, headerMap.values());
+        if(hasShowHeader())
+            printHeader(format, horizontalSeparator);
+        printBody(format, List.copyOf(headerMap.values()));
 
         Console.printNewLine(horizontalSeparator.toString());
 
@@ -100,10 +105,13 @@ public class SheetComponent implements PassiveConsoleComponent{
         return separatorStringBuilder.toString();
     }
 
-    private void printBody(String format, Collection<Integer> columnSize){
-        for (var row : contentList){
-            //printRow(format, row);
-            printRow(columnSize, row);
+    private void printBody(String format, List<Integer> columnSizes){
+        for(int i = 0; i < contentList.size(); i++){
+        //for (var row : contentList){
+            printRow(List.copyOf(headerMap.values()), contentList.get(i));
+            //printRow(List.copyOf(headerMap.values()), row);
+            if(i != contentList.size() - 1)
+                Console.printNewLine(generateHorizontalSeparator().toString());
         }
     }
 
@@ -113,15 +121,76 @@ public class SheetComponent implements PassiveConsoleComponent{
         Console.printNewLine(rowText);
     }
 
-    private void printRow(Collection<Integer> columnSize, List<ConsoleText> rowData){
-        int index = 0;
-        Console.printText("| ");
-        for(Integer column : columnSize){
-            Console.printText(rowData.get(index), column);
-            Console.printText(" | ");
-            index++;
+    /*
+     * This printRow allows to have different colors per column
+     */
+    private void printRow(List<Integer> columnSizes, List<ConsoleText> rowData){
+        if(hasMultiLineRows()) {
+            List<List<String>> textList = new ArrayList<>();
+            int maxLines = 0;
+            for (int i = 0; i < rowData.size(); i++) {
+                List<String> list = (splitInLines(columnSizes.get(i), rowData.get(i).toString()));
+                maxLines = list.size() > maxLines ? list.size() : maxLines;
+                textList.add(list);
+            }
+            for (int lineNumber = 0; lineNumber < maxLines; lineNumber++) {
+                Console.printText("| ");
+                for (int columnNumber = 0; columnNumber < rowData.size(); columnNumber++) {
+                    if (textList.get(columnNumber).size() > lineNumber) {
+                        Console.printText(textList.get(columnNumber).get(lineNumber), rowData.get(columnNumber).getConsoleTextColor(), rowData.get(columnNumber).getConsoleTextBackgroundColor(), columnSizes.get(columnNumber));
+                    } else {
+                        Console.printText(" ", columnSizes.get(columnNumber));
+                    }
+                    Console.printText(" | ");
+                }
+                Console.goToNextLine();
+            }
+        }else {
+            int index = 0;
+            Console.printText("| ");
+            for(Integer columnSize : columnSizes){
+                Console.printText(rowData.get(index), columnSize);
+                Console.printText(" | ");
+                index++;
+            }
+            Console.goToNextLine();
         }
-        Console.goToNextLine();
+    }
+
+    /*
+     * This method splits a String into multiple words, each word will be an element in a List of String
+     * It will keep each element in the List not longer than the maxLength
+     * If a word is longer than maxLength then it will split that word to fit it
+     */
+    public List<String> splitInLines(int maxLength, String text){
+        List<String> result = new ArrayList<>();
+        String[] words = text.split("\\s+");
+
+        StringBuilder lineBuilder = new StringBuilder();
+        for(String word : words){
+            if(lineBuilder.length() + word.length() <= maxLength){
+                lineBuilder.append(word + " ");
+            }else{
+                if(lineBuilder.length() != 0)
+                    result.add(lineBuilder.toString());
+                lineBuilder = new StringBuilder();
+                if(word.length() > maxLength){
+                    String[] splittedWord = splitWord(word, maxLength);
+                    for(int i = 0; i < splittedWord.length - 1; i++){
+                        result.add(splittedWord[i]);
+                    }
+                    lineBuilder.append(splittedWord[splittedWord.length - 1]);
+                }else{
+                    lineBuilder.append(word + " ");
+                }
+            }
+        }
+        result.add(lineBuilder.toString());
+        return result;
+    }
+
+    private String[] splitWord(String word, int maxLength){
+        return word.split(String.format("(?<=\\G.{%s})", maxLength));
     }
 
     private String generateFormat(Collection<Integer> values){
@@ -132,6 +201,10 @@ public class SheetComponent implements PassiveConsoleComponent{
         }
 
         return stringBuilder.toString();
+    }
+
+    private String generateSingleColumnFormat(int value){
+        return String.format(" %%-%s.%ss |", value, value);
     }
 
     public void setTableName(String tableName) {
@@ -152,5 +225,29 @@ public class SheetComponent implements PassiveConsoleComponent{
 
     public void setBannerMessage(ConsoleMultiColorText bannerMessage) {
         this.bannerMessage = bannerMessage;
+    }
+
+    public boolean hasShowHeader() {
+        return showHeader;
+    }
+
+    public void setShowHeader(boolean showHeader) {
+        this.showHeader = showHeader;
+    }
+
+    public boolean hasMultiLineRows() {
+        return multiLineRows;
+    }
+
+    public void setMultiLineRows(boolean multiLineRows) {
+        this.multiLineRows = multiLineRows;
+    }
+
+    public boolean hasRowSeparator() {
+        return rowSeparator;
+    }
+
+    public void setRowSeparator(boolean rowSeparator) {
+        this.rowSeparator = rowSeparator;
     }
 }

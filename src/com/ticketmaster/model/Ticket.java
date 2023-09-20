@@ -40,7 +40,7 @@ public abstract class Ticket {
     public static Map<String, Integer> getHeaders(){
         Map<String, Integer> headers = new LinkedHashMap<>();
         headers.put("ID", 5);
-        headers.put("Title", 20);
+        headers.put("Title", 10);
         headers.put("User", 12);
         headers.put("Date", 30);
         headers.put("Priority", 10);

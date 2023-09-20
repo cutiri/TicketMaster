@@ -8,6 +8,7 @@ public class ConsoleMultiColorText {
     private List<ConsoleText> textList = new ArrayList<>();
 
     public ConsoleMultiColorText(ConsoleText... consoleTextArray){
+        super();
         for (ConsoleText consoleText : consoleTextArray)
             textList.add(consoleText);
     }
