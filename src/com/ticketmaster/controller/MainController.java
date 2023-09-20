@@ -2,9 +2,10 @@ package com.ticketmaster.controller;
 
 import com.ticketmaster.model.User;
 import com.ticketmaster.model.db.Database;
-import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.InputCollectorRegex;
-import com.ticketmaster.view.components.TextComponent;
+
+import com.ticketmaster.view.components.*;
+import com.ticketmaster.view.utils.ConsoleText;
+
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
@@ -34,10 +35,14 @@ class MainController implements ControllerT<Object, Object> {
         ));
         TextComponent mainViewBadUsernamePassword = new TextComponent("Wrong username or password, try again.", ConsoleTextColor.RED, true);
         mainView.addPassiveComponents(mainViewBadUsernamePassword);
+        mainView.addPassiveComponents(new MultiTextComponent(
+                new ConsoleText("Leave it blank and press "),
+                new ConsoleText("ENTER ", ConsoleTextColor.GREEN),
+                new ConsoleText("to exit the application.")
+        ));
 
-
-        mainView.addInputCollector(new InputCollectorRegex("Enter username, leave it blank to go back: ", "Invalid username, it cannot contain numbers", "", RegexSelector.NO_NUMBERS.getRegex()));
-        mainView.addInputCollector(new InputCollectorRegex("Enter password, leave it blank to go back: ", "", "", RegexSelector.ANYTHING.getRegex()));
+        mainView.addInputCollector(new ValidatorInputCollector("username: ", "Invalid username", "", this::validateUsername));
+        mainView.addInputCollector(new RegexInputCollector("password: ", "", "", RegexSelector.ANYTHING.getRegex()));
 
 
         DialogResult result = DialogResult.AWAITING;
@@ -48,9 +53,7 @@ class MainController implements ControllerT<Object, Object> {
                 String username = mainView.getUserInputs().get(0);
                 String password = mainView.getUserInputs().get(1);
 
-                //FAKE USER, TODO, REPLACE WITH A REAL ONE
                 try {
-                    //User user = new User("aav", "123", new Team("LAS1-OTS", new Location("LAS1")));
                     User user = Database.authenticate(username, password);
                     if(user != null){
                         mainViewBadUsernamePassword.hide();
@@ -61,11 +64,20 @@ class MainController implements ControllerT<Object, Object> {
                         continue;
                     }
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         }
 
         return null;
+    }
+
+    private boolean validateUsername(String s) {
+        if(s == null) {
+            return false;
+        }
+        else{
+            return !Character.isDigit(s.charAt(0));
+        }
     }
 }

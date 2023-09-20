@@ -8,16 +8,16 @@ import com.ticketmaster.view.utils.DialogResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputCollectorList extends InputCollector {
+public class ListInputCollector extends InputCollector {
     private final int COLUMNS_NUMBER = 5;
 
     private List<String> matchesList = new ArrayList<>();
 
-    public InputCollectorList(String text, String errorMsg, String escapeText) {
+    public ListInputCollector(String text, String errorMsg, String escapeText) {
         super(text, errorMsg, escapeText);
     }
 
-    public InputCollectorList(String text, String errorMsg, String escapeText, List<String> matchesList) {
+    public ListInputCollector(String text, String errorMsg, String escapeText, List<String> matchesList) {
         super(text, errorMsg, escapeText);
         this.matchesList = matchesList;
     }

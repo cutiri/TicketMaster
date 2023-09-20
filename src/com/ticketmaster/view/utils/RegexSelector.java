@@ -10,11 +10,13 @@ public enum RegexSelector {
     PAGE_THEN_ANY_NUMBER("^(?i)page [0-9]+$"),
     CHARACTER_N("^(?i)N"),
     CHARACTER_P("^(?i)P"),
+    START_WITH_DIGIT("^[0-9].*"),
     CHARACTER_S("^(?i)S"),
     CHARACTER_C("^(?i)C"),
     CHARACTER_U("^(?i)U"),
     CHARACTER_L("^(?i)L"),
     EDIT_TICKET_OPTIONS("[PpSsCcUuLl]");
+
 
     private String regex;
 

@@ -2,8 +2,10 @@ package com.ticketmaster.controller;
 
 import com.ticketmaster.model.*;
 import com.ticketmaster.view.components.ConsoleView;
+
 import com.ticketmaster.view.components.InputCollectorList;
 import com.ticketmaster.view.components.InputCollectorRegex;
+
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.CallBackStringOperator;
 import com.ticketmaster.view.utils.ConsoleTextColor;
@@ -55,6 +57,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
 
         ticketEditView.addInputCollector(new InputCollectorRegex("Update [P]riority, [S]tatus, [C]omment, [U]user Assigned, [L]ocation\nOR Leave Blank To return To Ticket Queue: ", "Invalid option, please try again", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
+
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
         decisionMap.put(RegexSelector.CHARACTER_S.getRegex(), this::changeStatus);

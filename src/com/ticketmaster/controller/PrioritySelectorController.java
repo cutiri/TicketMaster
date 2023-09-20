@@ -3,7 +3,7 @@ package com.ticketmaster.controller;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Priority;
 import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.InputCollectorList;
+import com.ticketmaster.view.components.ListInputCollector;
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.DialogResult;
 
@@ -14,6 +14,7 @@ class PrioritySelectorController implements ControllerT<Priority, Priority> {
 
     @Override
     public Priority run(Priority priority) throws InvalidActionException {
+
         consoleView.addInputCollector(new InputCollectorList("Change Priority (Or leave blank to return to the ticket) ", "Invalid option, try again", "", Priority.getPriorityStringList()));
         consoleView.addPassiveComponents(new TextComponent("Current Priority: " + priority.name()));
 

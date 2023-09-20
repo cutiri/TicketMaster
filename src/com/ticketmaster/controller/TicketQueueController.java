@@ -21,7 +21,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     ConsoleView ticketQueueView = new ConsoleView();
     private SheetComponent ticketsSheet = new SheetComponent();
     private TextComponent bottomBar = new TextComponent();
-    private InputCollectorRegex inputCollector = new InputCollectorRegex("Enter text here: ", "", "", RegexSelector.ANYTHING.getRegex());
+    private RegexInputCollector inputCollector = new RegexInputCollector("Enter text here: ", "", "", RegexSelector.ANYTHING.getRegex());
 
     Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
 
@@ -73,15 +73,19 @@ class TicketQueueController implements ControllerT<Object, User>{
         }
 
         ticketsSheet.setSheetComponentContent(Ticket.getHeaders(), data);
-        ticketsSheet.setBannerMessage(new ConsoleMultiColorText(
+        ConsoleMultiColorText consoleMultiColorText = new ConsoleMultiColorText(
                 new ConsoleText("Welcome: "),
-                new ConsoleText(user.getLogin(), ConsoleTextColor.RED),
+                new ConsoleText(user.getFullName(), ConsoleTextColor.RED),
                 new ConsoleText(", "),
-                new ConsoleText("TICKET QUEUE.", ConsoleTextColor.CYAN)
-        ));
+                new ConsoleText("TICKET", ConsoleTextColor.CYAN),
+                new ConsoleText("QUEUE.", ConsoleTextColor.GREEN)
+        );
+        ticketsSheet.setBannerMessage(consoleMultiColorText);
         ticketsSheet.setCurrentPage(this.currentPage);
         ticketsSheet.setTotalPages(this.numberOfPages);
         ticketsSheet.setTotalRows(this.ticketNumber);
+        //ticketsSheet.setMultiLineRows(true);
+        //ticketsSheet.setRowSeparator(true);
     }
 
     private void openTicketNumber(String input) throws InvalidActionException {
