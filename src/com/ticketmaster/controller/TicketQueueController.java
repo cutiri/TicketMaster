@@ -21,13 +21,37 @@ class TicketQueueController implements ControllerT<Object, User>{
     ConsoleView ticketQueueView = new ConsoleView();
     private SheetComponent ticketsSheet = new SheetComponent();
     private TextComponent bottomBar = new TextComponent();
-    private RegexInputCollector inputCollector = new RegexInputCollector("Enter text here: ", "", "", RegexSelector.ANYTHING.getRegex());
+    private MultiTextComponent ticketQueueUserOptions;
+    private RegexInputCollector inputCollector = new RegexInputCollector("Enter text here: ", "Invalid option, try again", "", RegexSelector.ANYTHING.getRegex());
 
-    Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
+    private List<Ticket> ticketList = new ArrayList<>();
+    private Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
 
     public TicketQueueController(){
         super();
+        this.ticketQueueUserOptions = new MultiTextComponent(
+                new ConsoleText("Enter "),
+                new ConsoleText("P", ConsoleTextColor.GREEN),
+                new ConsoleText(" or "),
+                new ConsoleText("N", ConsoleTextColor.GREEN),
+                new ConsoleText(" to navigate to the Previous or Next page.\n"),
+                new ConsoleText("Enter "),
+                new ConsoleText("T", ConsoleTextColor.GREEN),
+                new ConsoleText(" followed by the ticket ID to open a ticket. For example: "),
+                new ConsoleText("T1234\n", ConsoleTextColor.GREEN),
+                new ConsoleText("Enter "),
+                new ConsoleText("A", ConsoleTextColor.GREEN),
+                new ConsoleText(" to add a new ticket.\n"),
+                new ConsoleText("Enter "),
+                new ConsoleText("F", ConsoleTextColor.GREEN),
+                new ConsoleText(" to set a filter or go to a different ticket queue.\n"),
+                new ConsoleText("Leave blank and press "),
+                new ConsoleText("ENTER", ConsoleTextColor.GREEN),
+                new ConsoleText(" to logout.")
+        );
+
         this.ticketQueueView.addPassiveComponents(ticketsSheet);
+        this.ticketQueueView.addPassiveComponents(ticketQueueUserOptions);
         this.ticketQueueView.addInputCollector(inputCollector);
 
         decisionMap.put(RegexSelector.NUMBER_1_TO_20.getRegex(), this::openTableElement);
@@ -36,12 +60,18 @@ class TicketQueueController implements ControllerT<Object, User>{
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::goToPreviousPage);
         decisionMap.put(RegexSelector.CHARACTER_N.getRegex(), this::goToNextPage);
         decisionMap.put(RegexSelector.CHARACTER_A.getRegex(), this::createNewTicket);
+        decisionMap.put(RegexSelector.CHARACTER_F.getRegex(), this::filterBy);
+
+
     }
+
 
 
 
     @Override
     public Object run(User user) throws InvalidActionException {
+        ticketList = Database.allTickets();
+
         this.user = user;
         DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE){
@@ -60,12 +90,12 @@ class TicketQueueController implements ControllerT<Object, User>{
     }
 
     private void initializeAllValues(){
-        ticketNumber = Database.allTickets().size();
+        ticketNumber = ticketList.size();
         numberOfPages = ticketNumber / TICKETS_PER_PAGE + 1;
         if(currentPage > numberOfPages)
             currentPage = numberOfPages;
 
-        List<Ticket> tickets = Database.allTickets().stream()
+        List<Ticket> tickets = ticketList.stream()
                 .skip((currentPage - 1) * TICKETS_PER_PAGE)
                 .limit(10)
                 .collect(Collectors.toList());
@@ -131,5 +161,11 @@ class TicketQueueController implements ControllerT<Object, User>{
 
     private void createNewTicket(String input) {
         AddTicketController ticketEditController = new AddTicketController(user);
+    }
+
+    private void filterBy(String input) {
+        TicketQueueFilterController ticketQueueFilterController = new TicketQueueFilterController();
+        List<Ticket> ticketQueue = ticketQueueFilterController.run(user);
+        this.ticketList = ticketQueue;
     }
 }

@@ -16,6 +16,7 @@ public enum RegexSelector {
     CHARACTER_U("^(?i)U"),
     CHARACTER_L("^(?i)L"),
     CHARACTER_A("^(?i)A"),
+    CHARACTER_F("^(?i)F"),
     EDIT_TICKET_OPTIONS("[PpSsCcUuLl]");
 
 

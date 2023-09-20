@@ -58,6 +58,12 @@ public class Database {
                 .collect(Collectors.toList());
     }
 
+    public static List<Ticket> findTicketsByAssignedUser(User user) {
+        return ticketList.stream()
+                .filter(ticket -> ticket.getUserAssigned().getLogin().equalsIgnoreCase(user.getLogin()))
+                .collect(Collectors.toList());
+    }
+
     public static List<Ticket> findTicketsByTicketCreator(String user) {
         return ticketList.stream()
                 .filter(ticket -> ticket.getCreatedBy().getLogin().equalsIgnoreCase(user))

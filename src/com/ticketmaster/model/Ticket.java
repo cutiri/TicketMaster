@@ -5,6 +5,7 @@ import com.ticketmaster.view.utils.ConsoleTextBackgroundColor;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.ticketmaster.model.Status.*;
@@ -41,18 +42,21 @@ public abstract class Ticket {
         Map<String, Integer> headers = new LinkedHashMap<>();
         headers.put("ID", 5);
         headers.put("Title", 10);
-        headers.put("User", 12);
-        headers.put("Date", 30);
+        headers.put("Created by", 12);
+        headers.put("Assigned to", 12);
+        headers.put("Date", 19);
         headers.put("Priority", 10);
+        headers.put("Status", 7);
         return headers;
     }
 
     public List<ConsoleText> getRowData(){
         List<ConsoleText> rawData = new ArrayList<>();
-        rawData.add(new ConsoleText(String.valueOf(this.getId())));
+        rawData.add(new ConsoleText(String.valueOf("T" + this.getId())));
         rawData.add(new ConsoleText(this.title));
         rawData.add(new ConsoleText(this.createdBy.getLogin()));
-        rawData.add(new ConsoleText(this.createdAt.toString()));
+        rawData.add(new ConsoleText(this.getUserAssigned().getLogin()));
+        rawData.add(new ConsoleText(this.createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
 
         ConsoleText sev = new ConsoleText(this.priority.getPriority());
         if(this.priority == Priority.HIGH) {
@@ -68,6 +72,7 @@ public abstract class Ticket {
             sev.setConsoleTextColor(ConsoleTextColor.BLACK);
         }
         rawData.add(sev);
+        rawData.add(new ConsoleText(this.status.toString()));
         return rawData;
     }
 
