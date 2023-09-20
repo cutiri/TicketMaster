@@ -12,6 +12,7 @@ import com.ticketmaster.view.utils.RegexSelector;
 import java.time.LocalDateTime;
 
 class AddCommentController implements ControllerT<Comment, User>{
+    private static final int MAX_TIME_SPENT = 99999;
 
     private final ConsoleView consoleView = new ConsoleView();
 
@@ -19,7 +20,7 @@ class AddCommentController implements ControllerT<Comment, User>{
     public Comment run(User user) throws InvalidActionException {
 
         consoleView.addInputCollector(new RegexInputCollector("New Comment: ", "Invalid Comment", ""));
-        consoleView.addInputCollector(new RegexInputCollector("Time Spent (Minutes): ", "Invalid time, please enter time in minutes again (0 - 99999)", "", RegexSelector.NUMBERS.getRegex()));
+        consoleView.addInputCollector(new RegexInputCollector("Time Spent (Minutes): ", "Invalid time, please enter time in minutes again (0 - "+ MAX_TIME_SPENT+")", "", RegexSelector.NUMBERS.getRegex()));
 
         DialogResult result = DialogResult.AWAITING;
         while (result != DialogResult.ESCAPE) {
@@ -28,6 +29,10 @@ class AddCommentController implements ControllerT<Comment, User>{
             if (result == DialogResult.SUCCESS) {
                 String text = consoleView.getUserInputs().get(0);
                 int timeSpent = Integer.parseInt(consoleView.getUserInputs().get(1));
+                if(timeSpent < 0)
+                    timeSpent = 0;
+                if(timeSpent > MAX_TIME_SPENT)
+                    timeSpent = MAX_TIME_SPENT;
 
                 return new Comment(text, user.getLogin(), timeSpent, LocalDateTime.now());
             }
