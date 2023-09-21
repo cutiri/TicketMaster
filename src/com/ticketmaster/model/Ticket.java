@@ -182,7 +182,7 @@ public abstract class Ticket {
     }
 
     // abstract method
-    public abstract void close() throws InvalidActionException;
+    public abstract void updateStatus(Status status) throws InvalidActionException;
 
     @Override
     public String toString() {

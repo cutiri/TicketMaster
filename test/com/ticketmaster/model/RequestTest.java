@@ -33,7 +33,7 @@ public class RequestTest {
     public void close_shouldReturnTicketStatusRESOLVED_whenCloseTicketAfterApproval() throws InvalidActionException {
         Request requestTestTicket = (Request) testTicket;
         requestTestTicket.setApproved(true);
-        testTicket.close();
+        testTicket.updateStatus(RESOLVED);
 
         assertEquals(RESOLVED, requestTestTicket.getStatus());
     }
@@ -41,7 +41,7 @@ public class RequestTest {
     @Test(expected = InvalidActionException.class)
     public void close_shouldThrowInvalidActionException_whenCloseTicketWithoutApproval() throws InvalidActionException {
         Request requestTestTicket = (Request) testTicket;
-        requestTestTicket.close();
+        requestTestTicket.updateStatus(RESOLVED);
     }
 
 }

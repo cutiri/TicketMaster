@@ -32,13 +32,13 @@ public class TroubleTicketTest {
 
     @Test(expected = InvalidActionException.class)
     public void close_shouldThrowInvalidActionException_whenCloseTicketWithoutComment() throws InvalidActionException {
-        testTicket.close();
+        testTicket.updateStatus(RESOLVED);
     }
 
     @Test
     public void close_shouldReturnTicketStatusRESOLVED_whenCloseTicket() throws InvalidActionException {
         testTicket.addComment(new Comment("Fixed printer issue", user.getLogin(), 10, LocalDateTime.now()));
-        testTicket.close();
+        testTicket.updateStatus(RESOLVED);
 
         assertEquals(RESOLVED, testTicket.getStatus());
     }

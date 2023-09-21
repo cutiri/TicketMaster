@@ -87,10 +87,10 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     }
 
     private void changeStatus(String s) throws InvalidActionException {
-        Status newStatus = new StatusSelectorController().run(ticket.getStatus());
+        Status newStatus = new StatusSelectorController().run(ticket);
 
         if(newStatus != null) {
-            ticket.setStatus(newStatus);
+            ticket.updateStatus(newStatus);
         }
     }
 

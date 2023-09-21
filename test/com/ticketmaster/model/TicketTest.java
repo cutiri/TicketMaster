@@ -34,7 +34,7 @@ public class TicketTest {
         testTicket.addComment(new Comment("Checking printer", user.getLogin(), 10, LocalDateTime.now()));
         testTicket.addComment(new Comment("Replaced cable", user.getLogin(), 20, LocalDateTime.now()));
         testTicket.addComment(new Comment("Issue resolved", user.getLogin(), 1, LocalDateTime.now()));
-        testTicket.close();
+        testTicket.updateStatus(Status.RESOLVED);
 
         //fix this
         System.out.println(testTicket);

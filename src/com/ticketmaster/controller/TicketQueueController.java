@@ -67,9 +67,6 @@ class TicketQueueController implements ControllerT<Object, User>{
 
     }
 
-
-
-
     @Override
     public Object run(User user) throws InvalidActionException {
         ticketList = Database.allTickets();

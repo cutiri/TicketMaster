@@ -30,7 +30,7 @@ public class Request extends Ticket{
     }
 
     @Override
-    public void close() throws InvalidActionException {
+    public void updateStatus(Status status) throws InvalidActionException {
         if (isApproved()) {
             setStatus(RESOLVED);
         } else {
