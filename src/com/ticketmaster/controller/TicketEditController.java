@@ -3,12 +3,11 @@ package com.ticketmaster.controller;
 import com.ticketmaster.model.*;
 import com.ticketmaster.view.components.ConsoleView;
 
+import com.ticketmaster.view.components.MultiTextComponent;
 import com.ticketmaster.view.components.RegexInputCollector;
 
 import com.ticketmaster.view.components.TextComponent;
-import com.ticketmaster.view.utils.CallBackStringOperator;
-import com.ticketmaster.view.utils.DialogResult;
-import com.ticketmaster.view.utils.RegexSelector;
+import com.ticketmaster.view.utils.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,6 +20,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     private User user;
     private Ticket ticket;
     private final Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
+    private final TextComponent ticketInfo = new TextComponent();
     private final TextComponent ticketNumber = new TextComponent();
     private final TextComponent ticketTitle = new TextComponent();
     private final TextComponent ticketDescription = new TextComponent();
@@ -39,6 +39,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
     public TicketEditController(User user) {
         this.user = user;
+        ticketEditView.addPassiveComponents(ticketInfo);
         ticketEditView.addPassiveComponents(ticketNumber);
         ticketEditView.addPassiveComponents(ticketTitle);
         ticketEditView.addPassiveComponents(ticketDescription);
@@ -52,8 +53,22 @@ class TicketEditController implements ControllerT<Object, Ticket>{
         ticketEditView.addPassiveComponents(ticketTimeSpent);
         ticketEditView.addPassiveComponents(ticketComments);
 
+        ticketEditView.addPassiveComponents(new MultiTextComponent(
+                new ConsoleText("Update "),
+                new ConsoleText("[P]", ConsoleTextColor.GREEN),
+                new ConsoleText("riority "),
+                new ConsoleText(" [S]", ConsoleTextColor.GREEN),
+                new ConsoleText("tatus "),
+                new ConsoleText(" [C]", ConsoleTextColor.GREEN),
+                new ConsoleText("ommit "),
+                new ConsoleText(" [U]", ConsoleTextColor.GREEN),
+                new ConsoleText("ser Assigned "),
+                new ConsoleText("[L]", ConsoleTextColor.GREEN),
+                new ConsoleText("ocation\n"),
+                new ConsoleText("OR Leave Blank To Return To Ticket Queue")
+        ));
 
-        ticketEditView.addInputCollector(new RegexInputCollector("Update [P]riority, [S]tatus, [C]omment, [U]user Assigned, [L]ocation\nOR Leave Blank To return To Ticket Queue: ", "Invalid option, please try again", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
+        ticketEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "Invalid option, please try again", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
 
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
@@ -114,6 +129,8 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     }
 
     private void initializeAllValues() {
+        ticketInfo.setText("##Ticket Details##");
+        ticketInfo.setTextColor(ConsoleTextColor.GREEN);
         ticketNumber.setText("Id: " + ticket.getId());
         ticketTitle.setText("Title: " + ticket.getTitle());
         ticketDescription.setText("Description: " + ticket.getDescription());

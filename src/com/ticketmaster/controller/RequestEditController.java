@@ -2,11 +2,10 @@ package com.ticketmaster.controller;
 
 import com.ticketmaster.model.*;
 import com.ticketmaster.view.components.ConsoleView;
+import com.ticketmaster.view.components.MultiTextComponent;
 import com.ticketmaster.view.components.RegexInputCollector;
 import com.ticketmaster.view.components.TextComponent;
-import com.ticketmaster.view.utils.CallBackStringOperator;
-import com.ticketmaster.view.utils.DialogResult;
-import com.ticketmaster.view.utils.RegexSelector;
+import com.ticketmaster.view.utils.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,6 +19,7 @@ class RequestEditController implements ControllerT<Object,Ticket>{
     private final User user;
     private Request ticket;
     private final Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
+    private final TextComponent ticketInfo = new TextComponent();
     private final TextComponent ticketNumber = new TextComponent();
     private final TextComponent ticketTitle = new TextComponent();
     private final TextComponent ticketDescription = new TextComponent();
@@ -40,6 +40,7 @@ class RequestEditController implements ControllerT<Object,Ticket>{
 
     public RequestEditController(User user) {
         this.user = user;
+        ticketEditView.addPassiveComponents(ticketInfo);
         ticketEditView.addPassiveComponents(ticketNumber);
         ticketEditView.addPassiveComponents(ticketTitle);
         ticketEditView.addPassiveComponents(ticketDescription);
@@ -55,8 +56,24 @@ class RequestEditController implements ControllerT<Object,Ticket>{
         ticketEditView.addPassiveComponents(ticketTimeSpent);
         ticketEditView.addPassiveComponents(ticketComments);
 
+        ticketEditView.addPassiveComponents(new MultiTextComponent(
+                new ConsoleText("Update "),
+                new ConsoleText("[P]", ConsoleTextColor.GREEN),
+                new ConsoleText("riority "),
+                new ConsoleText(" [S]", ConsoleTextColor.GREEN),
+                new ConsoleText("tatus "),
+                new ConsoleText(" [C]", ConsoleTextColor.GREEN),
+                new ConsoleText("ommit "),
+                new ConsoleText(" [U]", ConsoleTextColor.GREEN),
+                new ConsoleText("ser Assigned "),
+                new ConsoleText(" [L]", ConsoleTextColor.GREEN),
+                new ConsoleText("ocation "),
+                new ConsoleText("[A]", ConsoleTextColor.GREEN),
+                new ConsoleText("pprove\n"),
+                new ConsoleText("OR Leave Blank To Return To Ticket Queue")
 
-        ticketEditView.addInputCollector(new RegexInputCollector("Update [P]riority, [S]tatus, [C]omment, [U]user Assigned, [L]ocation, [A]pprove\nOR Leave Blank To return To Ticket Queue: ", "Invalid option, please try again", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
+        ));
+        ticketEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
 
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
@@ -68,7 +85,14 @@ class RequestEditController implements ControllerT<Object,Ticket>{
     }
 
     private void approveRequest(String s) {
-        ticket.setApproved(true);
+
+        Ticket result = new ApproveController().run(this);
+
+        if (result != null) {
+            ticket.setApproved(true);
+        }
+
+
     }
 
     private void updateLocation(String s) {
@@ -122,6 +146,8 @@ class RequestEditController implements ControllerT<Object,Ticket>{
     }
 
     private void initializeAllValues() {
+        ticketInfo.setText("## Request Details ##");
+        ticketInfo.setTextColor(ConsoleTextColor.GREEN);
         ticketNumber.setText("Id: " + ticket.getId());
         ticketTitle.setText("Title: " + ticket.getTitle());
         ticketDescription.setText("Description: " + ticket.getDescription());
@@ -157,6 +183,14 @@ class RequestEditController implements ControllerT<Object,Ticket>{
         }
 
         return null;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public Request getTicket() {
+        return this.ticket;
     }
 }
 

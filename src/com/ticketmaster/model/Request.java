@@ -31,10 +31,14 @@ public class Request extends Ticket{
 
     @Override
     public void updateStatus(Status status) throws InvalidActionException {
-        if (isApproved()) {
-            setStatus(RESOLVED);
+        if (status != RESOLVED) {
+            setStatus(status);
         } else {
-            throw new InvalidActionException("Pending Approval, request can not be closed.");
+            if (isApproved()) {
+                setStatus(status);
+            } else {
+                throw new InvalidActionException("Pending approval, request can not be closed without approval.");
+            }
         }
     }
 

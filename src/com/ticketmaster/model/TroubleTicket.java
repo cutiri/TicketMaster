@@ -11,14 +11,7 @@ public class TroubleTicket extends Ticket{
 
     @Override
     public void updateStatus(Status status) throws InvalidActionException {
-
         setStatus(status);
-//        if (status == RESOLVED && getComments().size() < 1) {
-//            System.out.println("throwing exception from here");
-//            throw new InvalidActionException("Please add a comment to close the ticket.");
-//        } else {
-//            setStatus(status);
-//        }
     }
 
 

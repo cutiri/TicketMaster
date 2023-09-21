@@ -33,7 +33,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     public TicketQueueController(){
         super();
         this.ticketQueueUserOptions = new MultiTextComponent(
-                new ConsoleText("Enter "),
+                new ConsoleText("\nEnter "),
                 new ConsoleText("P", ConsoleTextColor.GREEN),
                 new ConsoleText(" or "),
                 new ConsoleText("N", ConsoleTextColor.GREEN),
@@ -44,13 +44,15 @@ class TicketQueueController implements ControllerT<Object, User>{
                 new ConsoleText("T1234\n", ConsoleTextColor.GREEN),
                 new ConsoleText("Enter "),
                 new ConsoleText("A", ConsoleTextColor.GREEN),
-                new ConsoleText(" to add a new ticket.\n"),
+                new ConsoleText(" to add a new ticket or "),
+                new ConsoleText("R", ConsoleTextColor.GREEN),
+                new ConsoleText(" to submit a new request (hardware/software).\n"),
                 new ConsoleText("Enter "),
                 new ConsoleText("F", ConsoleTextColor.GREEN),
                 new ConsoleText(" to set a filter or go to a different ticket queue.\n"),
                 new ConsoleText("Leave blank and press "),
                 new ConsoleText("ENTER", ConsoleTextColor.GREEN),
-                new ConsoleText(" to logout.")
+                new ConsoleText(" to logout.\n")
         );
 
         this.ticketQueueView.addPassiveComponents(ticketsSheet);
@@ -129,6 +131,8 @@ class TicketQueueController implements ControllerT<Object, User>{
         int ticketNumber = Integer.parseInt(ticketNumberText);
 
         Ticket ticket = Database.findTicketById(ticketNumber);
+
+        System.out.println(ticket);
 
         if (ticket.getClass().equals(Request.class)) {
             new RequestEditController(user).run(ticket);
