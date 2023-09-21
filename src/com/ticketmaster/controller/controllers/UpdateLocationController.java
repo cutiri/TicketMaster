@@ -10,6 +10,9 @@ import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 
+/*
+ * Controller that let the user changes a ticket's location
+ */
 class UpdateLocationController implements Controller<Location, Location> {
 
     private final ConsoleView updateLocationView = new ConsoleView();

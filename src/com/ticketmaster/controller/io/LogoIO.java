@@ -3,7 +3,10 @@ package com.ticketmaster.controller.io;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class LogoIO {
+/*
+ * A class to read the logo file and convert it to String
+ */
+public final class LogoIO {
     private static final String logoFilePath = "data/logo.dat";
 
     private LogoIO(){}

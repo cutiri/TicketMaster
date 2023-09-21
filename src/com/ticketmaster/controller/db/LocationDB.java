@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ * A class that stores the Locations
+ */
 public class LocationDB {
     private static List<Location> list;
 

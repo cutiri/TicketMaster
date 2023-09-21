@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+ * Class that represents a Ticket's comment
+ * A single ticket could have none, one or more comments
+ * A comments consists of some text, a Date and time entry that marks when the comment was made
+ * The user who made the comment, and the time spent on the ticket by that user
+ */
 public class Comment implements Serializable {
     private String text;
     private LocalDateTime commentedAt;

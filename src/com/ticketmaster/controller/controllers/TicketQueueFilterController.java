@@ -1,14 +1,17 @@
 package com.ticketmaster.controller.controllers;
 
 import com.ticketmaster.controller.db.TicketDB;
+import com.ticketmaster.controller.framework.CallBackTicketList;
 import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.*;
 import com.ticketmaster.view.framework.ConsoleView;
 import com.ticketmaster.view.framework.ListInputCollector;
 import com.ticketmaster.view.utils.DialogResult;
-
 import java.util.*;
 
+/*
+ * This Controller will take care of filtering our ticket queue
+ */
 class TicketQueueFilterController implements Controller<List<Ticket>, User> {
 
     private ListInputCollector listInputCollector;
@@ -39,7 +42,6 @@ class TicketQueueFilterController implements Controller<List<Ticket>, User> {
         List<Ticket> result = new ArrayList<>();
         DialogResult dialogResult = DialogResult.AWAITING;
         while (dialogResult != DialogResult.ESCAPE) {
-            //dialogResult = listInputCollector.show();
             dialogResult = consoleView.show();
 
 
@@ -53,28 +55,46 @@ class TicketQueueFilterController implements Controller<List<Ticket>, User> {
         return result;
     }
 
+    /*
+     * returns the ticket queue depending on the selected filter
+     */
     public List<Ticket> getTicketList(){
         if(listInputCollector == null)
             return null;
         return decisionMap.get(listInputCollector.getCollectedInput()).callback();
     }
 
+    /*
+     * this method will get called to show only tickets assigned to the authenticated user
+     */
     private List<Ticket> getTicketsAssignedToMe(){
         return TicketDB.findTicketsByAssignedUser(user);
     }
 
+    /*
+     * this method will get called to show only tickets assigned the authenticated user's team
+     */
     private List<Ticket> geTicketsAssignedToMyTeam(){
         return TicketDB.findTicketsByAssignedTeamName(user.getTeam().getName());
     }
 
+    /*
+     * this method will get called to show only tickets created by the authenticated user
+     */
     private List<Ticket> getTicketsCreatedByMe(){
         return TicketDB.findTicketsByTicketCreatorLogin(user.getLogin());
     }
 
+    /*
+     * this method will get called to show only tickets that are closed
+     */
     private List<Ticket> getTicketsClosed() {
         return TicketDB.findTicketsByStatus(Status.RESOLVED);
     }
 
+    /*
+     * this method will get called to show only tickets that are Opened
+     */
     private List<Ticket> getTicketsOpened() {
         return TicketDB.findTicketsByStatus(Status.OPEN);
     }

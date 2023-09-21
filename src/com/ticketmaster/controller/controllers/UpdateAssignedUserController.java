@@ -9,9 +9,11 @@ import com.ticketmaster.view.framework.ListInputCollector;
 import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
-
 import java.util.stream.Collectors;
 
+/*
+ * Controller that let the user change a ticket's assigned user
+ */
 class UpdateAssignedUserController implements Controller<User, User> {
 
     private final ConsoleView updateAssignedUserView = new ConsoleView();

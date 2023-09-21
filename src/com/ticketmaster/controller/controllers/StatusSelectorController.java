@@ -9,6 +9,10 @@ import com.ticketmaster.view.utils.ConsoleText;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 
+/*
+ * This controller will handle modifying a ticket's status
+ * It's main method run accepts ticket and returns the status
+ */
 class StatusSelectorController implements Controller<Status, Ticket> {
 
     private final ConsoleView statusSelectorView = new ConsoleView();
@@ -31,7 +35,6 @@ class StatusSelectorController implements Controller<Status, Ticket> {
             if (result == DialogResult.SUCCESS) {
                 String input = statusSelectorView.getUserInputs().get(0);
 
-                //return Status.valueOf(input.toUpperCase());
                 return Status.getStatusFromString(input.toUpperCase());
             }
         }

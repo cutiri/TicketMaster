@@ -4,11 +4,13 @@ import com.ticketmaster.controller.io.AppIO;
 import com.ticketmaster.model.Status;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ * A class that stores the Tickets
+ */
 public class TicketDB {
     private static int ID_COUNTER = 1000;
 

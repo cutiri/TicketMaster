@@ -11,10 +11,13 @@ import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+ * This controller will handle adding a Request, a request inherits from Ticket
+ * It's main method run accepts an user and returns a Ticket
+ */
 class AddRequestController implements Controller<Ticket, User> {
 
     private final ConsoleView addRequestView = new ConsoleView();

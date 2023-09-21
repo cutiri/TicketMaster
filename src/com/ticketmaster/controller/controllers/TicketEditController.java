@@ -16,6 +16,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+/*
+ * A controller that takes a ticket as parameter
+ * Here we will showing and modifying tickets
+ */
 class TicketEditController implements Controller<Object, Ticket> {
 
     private User user;

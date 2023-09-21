@@ -10,6 +10,10 @@ import com.ticketmaster.view.utils.ConsoleText;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 
+/*
+ * This controller will change a ticket's priority
+ * It's main method run accepts Priority and returns Priority
+ */
 class PrioritySelectorController implements Controller<Priority, Priority> {
 
     private final ConsoleView prioritySelectorView = new ConsoleView();
