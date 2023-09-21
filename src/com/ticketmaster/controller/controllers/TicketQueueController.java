@@ -138,6 +138,9 @@ class TicketQueueController implements Controller<Object, User> {
             ticketEditController.run(ticket);
         }
 
+        if(ticketQueueFilterController.getTicketList() != null)
+            this.ticketList = ticketQueueFilterController.getTicketList();
+
         AppIO.saveS();
     }
 
@@ -177,7 +180,7 @@ class TicketQueueController implements Controller<Object, User> {
     private void createNewRequest(String s) {
         Ticket newRequest = new AddRequestController().run(user);
         if (newRequest != null) {
-            TicketDB.getList().add(newRequest);
+            TicketDB.add(newRequest);
             if(ticketQueueFilterController.getTicketList() != null)
                 this.ticketList = ticketQueueFilterController.getTicketList();
         }

@@ -4,6 +4,7 @@ import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.InputValidator;
 
 public class ValidatorInputCollector extends InputCollector {
+    //This is an instance of a functional interface
     private InputValidator validator;
 
     private ValidatorInputCollector(String text, String errorMsg, String escapeText) {
@@ -21,6 +22,7 @@ public class ValidatorInputCollector extends InputCollector {
         {
             setCurrentState(DialogResult.SUCCESS);
         }else {
+            //we collect the user's input and call our functional interface method, which will trigger a lambda
             setCurrentState(validator.validate(getCollectedInput()) ? DialogResult.SUCCESS : DialogResult.INPUT_ERROR);
         }
     }
