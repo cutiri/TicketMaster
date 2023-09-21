@@ -18,7 +18,8 @@ public enum RegexSelector {
     CHARACTER_L("^(?i)L"),
     CHARACTER_A("^(?i)A"),
     CHARACTER_F("^(?i)F"),
-    EDIT_TICKET_OPTIONS("[PpSsCcUuLl]");
+    CHARACTER_R("^(?i)R"),
+    EDIT_TICKET_OPTIONS("[PpSsCcUuLlaA]");
 
 
     private String regex;

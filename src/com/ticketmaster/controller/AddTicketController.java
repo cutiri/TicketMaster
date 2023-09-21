@@ -26,7 +26,6 @@ class AddTicketController implements ControllerT<Ticket, User> {
         addTicketView.addInputCollector(new ListInputCollector("Priority: ", "Invalid option, try again", "", Priority.getPriorityStringList()));
         addTicketView.addInputCollector((new ListInputCollector("Location: ", "Invalid Location, please try again", "", LocationDB.locationNameList())));
 
-
         DialogResult result = DialogResult.AWAITING;
 
         while (result != DialogResult.ESCAPE) {

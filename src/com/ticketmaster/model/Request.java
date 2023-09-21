@@ -9,7 +9,7 @@ public class Request extends Ticket{
 
     public Request(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User approver, User createdBy) {
         super(title, description, priority, location, createdAt, createdBy);
-        this.approver = approver;
+        setApprover(approver);
         setApproved(false);
     }
 

@@ -1,6 +1,7 @@
 package com.ticketmaster.controller;
 
 import com.ticketmaster.model.InvalidActionException;
+import com.ticketmaster.model.Request;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
 import com.ticketmaster.model.db.Database;
@@ -62,10 +63,13 @@ class TicketQueueController implements ControllerT<Object, User>{
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::goToPreviousPage);
         decisionMap.put(RegexSelector.CHARACTER_N.getRegex(), this::goToNextPage);
         decisionMap.put(RegexSelector.CHARACTER_A.getRegex(), this::createNewTicket);
+        decisionMap.put(RegexSelector.CHARACTER_R.getRegex(), this::createNewRequest);
         decisionMap.put(RegexSelector.CHARACTER_F.getRegex(), this::filterBy);
 
 
     }
+
+
 
     @Override
     public Object run(User user) throws InvalidActionException {
@@ -126,8 +130,12 @@ class TicketQueueController implements ControllerT<Object, User>{
 
         Ticket ticket = Database.findTicketById(ticketNumber);
 
-        TicketEditController ticketEditController = new TicketEditController(user);
-        ticketEditController.run(ticket);
+        if (ticket.getClass().equals(Request.class)) {
+            new RequestEditController(user).run(ticket);
+        } else {
+            TicketEditController ticketEditController = new TicketEditController(user);
+            ticketEditController.run(ticket);
+        }
     }
 
     private void openTableElement(Object input){
@@ -166,6 +174,15 @@ class TicketQueueController implements ControllerT<Object, User>{
                 this.ticketList = ticketQueueFilterController.getTicketList();
         }
 
+    }
+
+    private void createNewRequest(String s) {
+        Ticket newRequest = new AddRequestController().run(user);
+        if (newRequest != null) {
+            Database.allTickets().add(newRequest);
+            if(ticketQueueFilterController.getTicketList() != null)
+                this.ticketList = ticketQueueFilterController.getTicketList();
+        }
     }
 
     private void filterBy(String input) {
