@@ -1,9 +1,8 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.controller.db.LocationDB;
+import com.ticketmaster.controller.db.UserDB;
 import com.ticketmaster.model.*;
-import com.ticketmaster.model.db.LocationDB;
-import com.ticketmaster.model.db.TicketDB;
-import com.ticketmaster.model.db.UserDB;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.ListInputCollector;
 import com.ticketmaster.view.components.RegexInputCollector;
@@ -40,9 +39,9 @@ class AddRequestController implements ControllerT<Ticket, User>{
                 String title = addRequestView.getUserInputs().get(0);
                 String description = addRequestView.getUserInputs().get(1);
                 Priority priority = Priority.valueOf(addRequestView.getUserInputs().get(2));
-                Location location = LocationDB.locationList().stream().filter(loc -> loc.getName().equalsIgnoreCase(addRequestView.getUserInputs().get(3))).findFirst().orElse(null);
+                Location location = LocationDB.getList().stream().filter(loc -> loc.getName().equalsIgnoreCase(addRequestView.getUserInputs().get(3))).findFirst().orElse(null);
                 String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                User approver = UserDB.userList().get(0);
+                User approver = UserDB.getList().get(0);
 
                 return TicketFactory.createTicket(title, description, priority, location, LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), approver, user);
             }
