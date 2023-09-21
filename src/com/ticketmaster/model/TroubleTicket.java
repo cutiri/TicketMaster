@@ -1,9 +1,10 @@
 package com.ticketmaster.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import static com.ticketmaster.model.Status.RESOLVED;
 
-public class TroubleTicket extends Ticket{
+public class TroubleTicket extends Ticket implements Serializable {
 
     public TroubleTicket(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User createdBy) {
         super(title, description, priority, location, createdAt, createdBy);

@@ -1,15 +1,11 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.controller.db.TicketDB;
 import com.ticketmaster.model.*;
-import com.ticketmaster.model.db.Database;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.ListInputCollector;
-import com.ticketmaster.view.components.TextComponent;
-import com.ticketmaster.view.utils.CallBackStringOperator;
 import com.ticketmaster.view.utils.DialogResult;
-import org.w3c.dom.Text;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 class TicketQueueFilterController implements ControllerT<List<Ticket>, User>{
@@ -58,23 +54,23 @@ class TicketQueueFilterController implements ControllerT<List<Ticket>, User>{
     }
 
     private List<Ticket> getTicketsAssignedToMe(){
-        return Database.findTicketsByAssignedUser(user);
+        return TicketDB.findTicketsByAssignedUser(user);
     }
 
     private List<Ticket> geTicketsAssignedToMyTeam(){
-        return Database.findTicketsByAssignedTeam(user.getTeam().getName());
+        return TicketDB.findTicketsByAssignedTeamName(user.getTeam().getName());
     }
 
     private List<Ticket> getTicketsCreatedByMe(){
-        return Database.findTicketsByTicketCreator(user.getLogin());
+        return TicketDB.findTicketsByTicketCreatorLogin(user.getLogin());
     }
 
     private List<Ticket> getTicketsClosed() {
-        return Database.findTicketsByStatus(Status.RESOLVED);
+        return TicketDB.findTicketsByStatus(Status.RESOLVED);
     }
 
     private List<Ticket> getTicketsOpened() {
-        return Database.findTicketsByStatus(Status.OPEN);
+        return TicketDB.findTicketsByStatus(Status.OPEN);
     }
 
 }

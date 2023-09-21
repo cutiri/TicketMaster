@@ -1,10 +1,9 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.controller.db.TicketDB;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
-import com.ticketmaster.model.db.Database;
-import com.ticketmaster.model.db.TicketDB;
 import com.ticketmaster.view.components.*;
 import com.ticketmaster.view.utils.*;
 
@@ -72,7 +71,7 @@ class TicketQueueController implements ControllerT<Object, User>{
 
     @Override
     public Object run(User user) throws InvalidActionException {
-        ticketList = Database.allTickets();
+        ticketList = TicketDB.getList();
 
         this.user = user;
         DialogResult result = DialogResult.AWAITING;
@@ -127,7 +126,7 @@ class TicketQueueController implements ControllerT<Object, User>{
         String ticketNumberText = input.toLowerCase().replace("t", "");
         int ticketNumber = Integer.parseInt(ticketNumberText);
 
-        Ticket ticket = Database.findTicketById(ticketNumber);
+        Ticket ticket = TicketDB.findTicketById(ticketNumber);
 
         TicketEditController ticketEditController = new TicketEditController(user);
         ticketEditController.run(ticket);
@@ -164,7 +163,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     private void createNewTicket(String input) {
         Ticket newTicket = new AddTicketController().run(user);
         if (newTicket != null) {
-            Database.allTickets().add(newTicket);
+            TicketDB.add(newTicket);
             if(ticketQueueFilterController.getTicketList() != null)
                 this.ticketList = ticketQueueFilterController.getTicketList();
         }

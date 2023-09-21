@@ -1,11 +1,12 @@
 package com.ticketmaster.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum Priority {
+public enum Priority  implements Serializable {
     LOW("Low"),
     MEDIUM("Medium"),
     HIGH("High");

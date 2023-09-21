@@ -1,12 +1,15 @@
 package com.ticketmaster.model;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.TreeSet;
 
-public class Team {
+public class Team implements Serializable {
     private String name;
     private Location locatedAt;
-    private final Set<User> members = new TreeSet<>(Comparator.comparing(User::getLogin));
+    private final Set<User> members = new HashSet<>();
+
+    public Team(){}
 
     public Team(String name, Location locatedAt) {
         setName(name);

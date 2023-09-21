@@ -1,8 +1,8 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.controller.db.LocationDB;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Location;
-import com.ticketmaster.model.db.LocationDB;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.ListInputCollector;
 import com.ticketmaster.view.components.TextComponent;
@@ -28,7 +28,7 @@ class UpdateLocationController implements ControllerT<Location, Location>{
 
             String input = updateLocationView.getUserInputs().get(0);
 
-            Location newLocation =  LocationDB.locationList().stream()
+            Location newLocation = LocationDB.getList().stream()
                     .filter(loc -> loc.getName().equalsIgnoreCase(input))
                     .findFirst().orElse(null);
 
