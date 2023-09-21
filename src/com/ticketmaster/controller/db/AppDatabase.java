@@ -6,6 +6,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/*
+ * A container to all the application's data,
+ * it collects all the data in the app and stores it in order for the app to be able to serialize it
+ */
 public final class AppDatabase implements Serializable {
 
     private List<User> users;
@@ -27,6 +31,10 @@ public final class AppDatabase implements Serializable {
         TicketDB.setList(tickets);
     }
 
+    /*
+     * this method will generate some demo data for our application
+     * it gets called if loading the data from the hard drive fails
+     */
     public void initializeAppDatabaseWithFakeData()
     {
         Location las1 = new Location("LAS1");

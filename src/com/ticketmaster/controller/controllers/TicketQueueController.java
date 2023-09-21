@@ -10,10 +10,13 @@ import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
 import com.ticketmaster.view.framework.*;
 import com.ticketmaster.view.utils.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
+/*
+ * This Controller handles the entire ticket queue
+ * From here we re-direct the flow to other controllers
+ */
 class TicketQueueController implements Controller<Object, User> {
     private static final int TICKETS_PER_PAGE = 10;
 
@@ -60,7 +63,6 @@ class TicketQueueController implements Controller<Object, User> {
         this.ticketQueueView.addPassiveComponents(ticketQueueUserOptions);
         this.ticketQueueView.addInputCollector(inputCollector);
 
-        //decisionMap.put(RegexSelector.NUMBER_1_TO_20.getRegex(), this::openTableElement);
         decisionMap.put(RegexSelector.TICKET_NUMBER.getRegex(), this::openTicketNumber);
         decisionMap.put(RegexSelector.PAGE_THEN_ANY_NUMBER.getRegex(), this::goToPage);
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::goToPreviousPage);
@@ -95,6 +97,9 @@ class TicketQueueController implements Controller<Object, User> {
         return null;
     }
 
+    /*
+     * Method to initialize our View
+     */
     private void initializeAllValues(){
         ticketNumber = ticketList.size();
         numberOfPages = ticketNumber / TICKETS_PER_PAGE + 1;
@@ -125,6 +130,9 @@ class TicketQueueController implements Controller<Object, User> {
         ticketsSheet.setTotalRows(this.ticketNumber);
     }
 
+    /*
+     * Here we handle opening a ticket
+     */
     private void openTicketNumber(String input) throws InvalidActionException {
         String ticketNumberText = input.toLowerCase().replace("t", "");
         int ticketNumber = Integer.parseInt(ticketNumberText);
@@ -144,6 +152,9 @@ class TicketQueueController implements Controller<Object, User> {
         AppIO.saveS();
     }
 
+    /*
+     * Handles changing pages in the queue
+     */
     private void goToPage(String input){
         String pageNumberText = input.toLowerCase().replace("page ", "");
 
@@ -159,14 +170,23 @@ class TicketQueueController implements Controller<Object, User> {
         }
     }
 
+    /*
+     * as the method suggests, we go to the next page
+     */
     private void goToNextPage(String input){
         goToPage(String.valueOf(currentPage + 1));
     }
 
+    /*
+     * as the method suggests, we go to the previous page
+     */
     private void goToPreviousPage(String input){
         goToPage(String.valueOf(currentPage - 1));
     }
 
+    /*
+     * we redirect the flow to another controller that will take care of creating a new ticket
+     */
     private void createNewTicket(String input) {
         Ticket newTicket = new AddTicketController().run(user);
         if (newTicket != null) {
@@ -177,6 +197,9 @@ class TicketQueueController implements Controller<Object, User> {
 
     }
 
+    /*
+     * redirecting the flow to a controller that creates requests
+     */
     private void createNewRequest(String s) {
         Ticket newRequest = new AddRequestController().run(user);
         if (newRequest != null) {
@@ -186,6 +209,9 @@ class TicketQueueController implements Controller<Object, User> {
         }
     }
 
+    /*
+     * method to filter our ticket queue
+     */
     private void filterBy(String input) {
         this.ticketList = ticketQueueFilterController.run(user);
     }

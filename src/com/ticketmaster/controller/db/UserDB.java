@@ -5,6 +5,9 @@ import com.ticketmaster.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * A class that stores the Users
+ */
 public class UserDB {
     private static List<User> list;
 

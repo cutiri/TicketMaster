@@ -14,7 +14,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-
+/*
+ * This controller will handle editing a Request
+ * It's main method run accepts a Ticket and returns Object
+ */
 class RequestEditController implements Controller<Object,Ticket> {
 
     private final User user;

@@ -5,6 +5,9 @@ import com.ticketmaster.model.Team;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * A class that stores the Teams
+ */
 public class TeamDB {
 
     private static List<Team> list;

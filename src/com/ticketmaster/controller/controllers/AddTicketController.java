@@ -14,6 +14,10 @@ import com.ticketmaster.view.utils.RegexSelector;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+ * This controller will handle adding a Trouble Ticket
+ * It's main method run accepts an user and returns a Ticket
+ */
 public class AddTicketController implements Controller<Ticket, User> {
 
     private final ConsoleView addTicketView = new ConsoleView();
