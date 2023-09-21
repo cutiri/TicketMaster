@@ -1,8 +1,8 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.controller.db.UserDB;
 import com.ticketmaster.controller.io.LogoIO;
 import com.ticketmaster.model.User;
-import com.ticketmaster.model.db.Database;
 
 import com.ticketmaster.view.components.*;
 import com.ticketmaster.view.utils.ConsoleText;
@@ -11,12 +11,15 @@ import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
+import java.net.UnknownServiceException;
+
 class MainController implements ControllerT<Object, Object> {
 
     private TicketQueueController ticketQueueController = new TicketQueueController();
 
     @Override
     public Object run(Object o){
+
 
         ConsoleView mainView = new ConsoleView();
 
@@ -42,8 +45,9 @@ class MainController implements ControllerT<Object, Object> {
                 String password = mainView.getUserInputs().get(1);
 
                 try {
-                    User user = Database.authenticate(username, password);
+                    User user = UserDB.authenticate(username, password);
                     if(user != null){
+                        ticketQueueController = new TicketQueueController();
                         mainViewBadUsernamePassword.hide();
                         //Calling the TicketQueue controller to run, passing the user as a parameter
                         ticketQueueController.run(user);

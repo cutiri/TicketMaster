@@ -1,9 +1,10 @@
 package com.ticketmaster.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Comment {
+public class Comment implements Serializable {
     private String text;
     private LocalDateTime commentedAt;
     private String userLogin;

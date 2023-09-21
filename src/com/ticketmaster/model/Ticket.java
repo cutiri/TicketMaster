@@ -4,14 +4,16 @@ import com.ticketmaster.view.utils.ConsoleText;
 import com.ticketmaster.view.utils.ConsoleTextBackgroundColor;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.ticketmaster.model.Status.*;
 
-public abstract class Ticket {
+public abstract class Ticket implements Serializable {
     private static int ID_COUNTER = 1000; // move to DB
+
     private int id;
     private String title;
     private String description;
@@ -26,6 +28,20 @@ public abstract class Ticket {
     private final Collection<Comment> comments = new LinkedList<>();
 
     public Ticket(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User createdBy) {
+        setId(ID_COUNTER++);
+        setTitle(title);
+        setDescription(description);
+        setCreatedAt(createdAt);
+        setStatus(OPEN);
+        setPriority(priority);
+        setLocation(location);
+        setTeamAssigned(location.getSupportTeam());
+        setUserAssigned(teamAssigned.getFirstUser());
+        setCreatedBy(createdBy);
+    }
+
+    public Ticket(int id, String title, String description, Priority priority, Location location, LocalDateTime createdAt, User createdBy,
+                  Status status) {
         setId(ID_COUNTER++);
         setTitle(title);
         setDescription(description);

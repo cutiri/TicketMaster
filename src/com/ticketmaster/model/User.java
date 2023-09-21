@@ -1,13 +1,16 @@
 package com.ticketmaster.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private String login;
     private String password;
     private Team team;
     private String fullName;
     boolean isActive;
+
+    public User(){}
 
     public User(String login, String password, Team team) throws InvalidActionException {
         setLogin(login);

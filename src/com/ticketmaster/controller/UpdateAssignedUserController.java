@@ -1,8 +1,8 @@
 package com.ticketmaster.controller;
 
+import com.ticketmaster.controller.db.UserDB;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.User;
-import com.ticketmaster.model.db.UserDB;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.RegexInputCollector;
 import com.ticketmaster.view.components.TextComponent;
@@ -29,7 +29,7 @@ class UpdateAssignedUserController implements ControllerT<User, User>{
             if (result == DialogResult.SUCCESS) {
                 String userLogin = updateAssignedUserView.getUserInputs().get(0);
 
-                User newAssignedUser =  UserDB.userList().stream()
+                User newAssignedUser =  UserDB.getList().stream()
                         .filter(usr -> usr.getLogin().equalsIgnoreCase(userLogin))
                         .findFirst().orElse(null);
 
