@@ -1,7 +1,6 @@
 package com.ticketmaster.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +18,6 @@ public enum Priority  implements Serializable {
 
     public String getPriority() {
         return priority;
-    }
-
-    public static String getPriorities() {
-        return "HIGH, MEDIUM, LOW";
     }
 
     public static List<String> getPriorityStringList() {

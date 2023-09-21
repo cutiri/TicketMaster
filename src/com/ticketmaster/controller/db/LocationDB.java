@@ -2,11 +2,7 @@ package com.ticketmaster.controller.db;
 
 import com.ticketmaster.controller.io.AppIO;
 import com.ticketmaster.model.Location;
-import com.ticketmaster.model.Ticket;
-import com.ticketmaster.model.User;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

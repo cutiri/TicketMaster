@@ -1,4 +1,4 @@
-package com.ticketmaster.view.components;
+package com.ticketmaster.view.framework;
 
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;

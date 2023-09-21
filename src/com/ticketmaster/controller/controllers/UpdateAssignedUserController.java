@@ -1,19 +1,18 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
 import com.ticketmaster.controller.db.UserDB;
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.User;
-import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.ListInputCollector;
-import com.ticketmaster.view.components.RegexInputCollector;
-import com.ticketmaster.view.components.TextComponent;
+import com.ticketmaster.view.framework.ConsoleView;
+import com.ticketmaster.view.framework.ListInputCollector;
+import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
-import com.ticketmaster.view.utils.RegexSelector;
 
 import java.util.stream.Collectors;
 
-class UpdateAssignedUserController implements ControllerT<User, User>{
+class UpdateAssignedUserController implements Controller<User, User> {
 
     private final ConsoleView updateAssignedUserView = new ConsoleView();
 

@@ -22,11 +22,12 @@ public enum Status implements Serializable {
         return status;
     }
 
-    public static String getAllStatus() {
-        return "OPEN, IN PROGRESS, PENDING, PENDING APPROVAL, RESOLVED";
-    }
-
     public static List<String> getStatusStringList() {
         return Arrays.stream(Status.values()).map(Enum::name).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString(){
+        return this.getStatus();
     }
 }

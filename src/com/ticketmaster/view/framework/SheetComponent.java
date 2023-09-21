@@ -1,4 +1,4 @@
-package com.ticketmaster.view.components;
+package com.ticketmaster.view.framework;
 
 import com.ticketmaster.view.utils.Console;
 import com.ticketmaster.view.utils.ConsoleMultiColorText;
@@ -6,7 +6,6 @@ import com.ticketmaster.view.utils.ConsoleText;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SheetComponent implements PassiveConsoleComponent{
     private Map<String, Integer> headerMap = new TreeMap<>();

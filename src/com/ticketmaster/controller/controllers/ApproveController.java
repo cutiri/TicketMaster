@@ -1,18 +1,16 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.InvalidActionException;
-import com.ticketmaster.model.Location;
 import com.ticketmaster.model.Ticket;
-import com.ticketmaster.model.User;
-import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.ListInputCollector;
-import com.ticketmaster.view.components.RegexInputCollector;
-import com.ticketmaster.view.components.TextComponent;
+import com.ticketmaster.view.framework.ConsoleView;
+import com.ticketmaster.view.framework.RegexInputCollector;
+import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
-class ApproveController implements ControllerT<Ticket, RequestEditController>{
+class ApproveController implements Controller<Ticket, RequestEditController> {
 
     private final ConsoleView approverView = new ConsoleView();
     

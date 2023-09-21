@@ -1,16 +1,15 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
 import com.ticketmaster.controller.db.TicketDB;
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.*;
-import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.ListInputCollector;
+import com.ticketmaster.view.framework.ListInputCollector;
 import com.ticketmaster.view.utils.DialogResult;
 
 import java.util.*;
 
-class TicketQueueFilterController implements ControllerT<List<Ticket>, User>{
+class TicketQueueFilterController implements Controller<List<Ticket>, User> {
 
-    private ConsoleView consoleView = new ConsoleView();
     private ListInputCollector listInputCollector;
     private User user;
 

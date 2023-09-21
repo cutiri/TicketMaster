@@ -1,8 +1,7 @@
-package com.ticketmaster.view.components;
+package com.ticketmaster.view.framework;
 
 import com.ticketmaster.view.utils.Console;
 import com.ticketmaster.view.utils.ConsoleTextColor;
-import org.w3c.dom.Text;
 
 public class TextComponent implements PassiveConsoleComponent{
     private String text;

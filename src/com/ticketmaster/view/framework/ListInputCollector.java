@@ -1,4 +1,4 @@
-package com.ticketmaster.view.components;
+package com.ticketmaster.view.framework;
 
 import com.ticketmaster.view.utils.Console;
 import com.ticketmaster.view.utils.ConsoleText;
@@ -12,10 +12,6 @@ public class ListInputCollector extends InputCollector {
     private final int COLUMNS_NUMBER = 5;
 
     private List<String> matchesList = new ArrayList<>();
-
-    public ListInputCollector(String text, String errorMsg, String escapeText) {
-        super(text, errorMsg, escapeText);
-    }
 
     public ListInputCollector(String text, String errorMsg, String escapeText, List<String> matchesList) {
         super(text, errorMsg, escapeText);
@@ -56,7 +52,7 @@ public class ListInputCollector extends InputCollector {
                 setCollectedInput(matchesList.get(number - 1));
                 match=true;
             }catch (Exception e){
-
+                System.out.println(e.getStackTrace());
             }
         }
         if(match) {

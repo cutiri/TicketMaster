@@ -6,16 +6,22 @@ import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TicketDB {
+    private static int ID_COUNTER = 1000;
+
     private static List<Ticket> list;
 
     public static void setList(List<Ticket> list){
         if(TicketDB.list == null)
             TicketDB.list = list;
+
+        for (Ticket ticket : list){
+            if(ID_COUNTER <= ticket.getId())
+                ID_COUNTER = ticket.getId() + 1;
+        }
     }
 
     public static List<Ticket> getList(){
@@ -32,6 +38,13 @@ public class TicketDB {
 
     public static void add(Ticket newTicket) {
         setList(new ArrayList<>());
+        if(newTicket.getId() == -1) {
+            newTicket.setId(getNextIdCounter());
+        }
+        else if(newTicket.getId() >= ID_COUNTER)
+        {
+            ID_COUNTER = newTicket.getId() + 1;
+        }
         list.add(newTicket);
         AppIO.saveS();
     }
@@ -70,5 +83,9 @@ public class TicketDB {
         return list.stream()
                 .filter(ticket -> ticket.getStatus() == status)
                 .collect(Collectors.toList());
+    }
+
+    public static int getNextIdCounter(){
+        return ID_COUNTER++;
     }
 }

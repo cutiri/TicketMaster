@@ -1,10 +1,6 @@
 package com.ticketmaster.controller.db;
 
 import com.ticketmaster.model.*;
-//TODO DELETE
-//import com.ticketmaster.model.db.DatabaseDeprecated;
-//import com.ticketmaster.model.db.TeamDB;
-//import com.ticketmaster.model.db.UserDB;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

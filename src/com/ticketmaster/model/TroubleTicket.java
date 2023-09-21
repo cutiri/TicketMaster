@@ -2,7 +2,6 @@ package com.ticketmaster.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import static com.ticketmaster.model.Status.RESOLVED;
 
 public class TroubleTicket extends Ticket implements Serializable {
 

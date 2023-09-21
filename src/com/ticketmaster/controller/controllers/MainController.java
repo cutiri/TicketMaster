@@ -1,19 +1,18 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
 import com.ticketmaster.controller.db.UserDB;
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.controller.io.LogoIO;
 import com.ticketmaster.model.User;
 
-import com.ticketmaster.view.components.*;
+import com.ticketmaster.view.framework.*;
 import com.ticketmaster.view.utils.ConsoleText;
 
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
 
-import java.net.UnknownServiceException;
-
-class MainController implements ControllerT<Object, Object> {
+public class MainController implements Controller<Object, Object> {
 
     private TicketQueueController ticketQueueController = new TicketQueueController();
 

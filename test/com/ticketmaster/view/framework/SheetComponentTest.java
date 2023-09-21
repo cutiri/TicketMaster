@@ -1,6 +1,5 @@
-package com.ticketmaster.view.components;
+package com.ticketmaster.view.framework;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.List;
