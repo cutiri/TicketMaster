@@ -182,7 +182,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     private void createNewRequest(String s) {
         Ticket newRequest = new AddRequestController().run(user);
         if (newRequest != null) {
-            Database.allTickets().add(newRequest);
+            TicketDB.getList().add(newRequest);
             if(ticketQueueFilterController.getTicketList() != null)
                 this.ticketList = ticketQueueFilterController.getTicketList();
         }

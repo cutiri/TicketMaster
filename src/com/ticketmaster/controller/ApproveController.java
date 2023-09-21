@@ -4,7 +4,6 @@ import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Location;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
-import com.ticketmaster.model.db.LocationDB;
 import com.ticketmaster.view.components.ConsoleView;
 import com.ticketmaster.view.components.ListInputCollector;
 import com.ticketmaster.view.components.RegexInputCollector;
