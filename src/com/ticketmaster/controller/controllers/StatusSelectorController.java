@@ -17,7 +17,7 @@ class StatusSelectorController implements Controller<Status, Ticket> {
     @Override
     public Status run(Ticket ticket) throws InvalidActionException {
         statusSelectorView.addInputCollector(new ListInputCollector("Change Status (Or leave blank to return to the ticket) ", "Invalid option, please try again" , "", Status.getStatusStringList()));
-//        statusSelectorView.addPassiveComponents(new TextComponent("Current Status: " + ticket.getStatus().name()));
+
         statusSelectorView.addPassiveComponents(new MultiTextComponent(
                 new ConsoleText("Current Priority: " ),
                 new ConsoleText(ticket.getStatus().name(), ConsoleTextColor.GREEN)));
@@ -31,7 +31,8 @@ class StatusSelectorController implements Controller<Status, Ticket> {
             if (result == DialogResult.SUCCESS) {
                 String input = statusSelectorView.getUserInputs().get(0);
 
-                return Status.valueOf(input.toUpperCase());
+                //return Status.valueOf(input.toUpperCase());
+                return Status.getStatusFromString(input.toUpperCase());
             }
         }
 

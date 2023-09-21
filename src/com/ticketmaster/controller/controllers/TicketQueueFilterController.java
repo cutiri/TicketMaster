@@ -3,6 +3,7 @@ package com.ticketmaster.controller.controllers;
 import com.ticketmaster.controller.db.TicketDB;
 import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.*;
+import com.ticketmaster.view.framework.ConsoleView;
 import com.ticketmaster.view.framework.ListInputCollector;
 import com.ticketmaster.view.utils.DialogResult;
 
@@ -12,7 +13,7 @@ class TicketQueueFilterController implements Controller<List<Ticket>, User> {
 
     private ListInputCollector listInputCollector;
     private User user;
-
+    private ConsoleView consoleView;
     private Map<String, CallBackTicketList> decisionMap = new TreeMap<>();
 
     public TicketQueueFilterController(){
@@ -27,14 +28,20 @@ class TicketQueueFilterController implements Controller<List<Ticket>, User> {
 
 
     @Override
-    public List<Ticket> run(User user) throws InvalidActionException {
+    public List<Ticket> run(User user) {
         this.user = user;
+        consoleView = new ConsoleView();
+
         listInputCollector = new ListInputCollector("Enter a filter's value","Invalid option, please try again","", List.copyOf(decisionMap.keySet()));
+
+        consoleView.addInputCollector(listInputCollector);
 
         List<Ticket> result = new ArrayList<>();
         DialogResult dialogResult = DialogResult.AWAITING;
         while (dialogResult != DialogResult.ESCAPE) {
-            dialogResult = listInputCollector.show();
+            //dialogResult = listInputCollector.show();
+            dialogResult = consoleView.show();
+
 
             for (String key : decisionMap.keySet()) {
                 if (key.equals(listInputCollector.getCollectedInput())) {

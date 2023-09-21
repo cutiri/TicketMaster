@@ -19,7 +19,6 @@ class PrioritySelectorController implements Controller<Priority, Priority> {
     public Priority run(Priority priority) throws InvalidActionException {
 
         prioritySelectorView.addInputCollector(new ListInputCollector("Change Priority (Or leave blank to return to the ticket) ", "Invalid option, try again", "", Priority.getPriorityStringList()));
-//        consoleView.addPassiveComponents(new TextComponent("Current Priority: " + priority.name()));
         prioritySelectorView.addPassiveComponents(new MultiTextComponent(
                                          new ConsoleText("Current Status: " ),
                                          new ConsoleText(priority.name(), ConsoleTextColor.GREEN)));

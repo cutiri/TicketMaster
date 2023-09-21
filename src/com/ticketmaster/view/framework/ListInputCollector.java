@@ -1,9 +1,6 @@
 package com.ticketmaster.view.framework;
 
-import com.ticketmaster.view.utils.Console;
-import com.ticketmaster.view.utils.ConsoleText;
-import com.ticketmaster.view.utils.ConsoleTextColor;
-import com.ticketmaster.view.utils.DialogResult;
+import com.ticketmaster.view.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +44,12 @@ public class ListInputCollector extends InputCollector {
                         .equalsIgnoreCase(getCollectedInput()));
         if(!match)
         {
-            try{
+            if(getCollectedInput().trim().matches(RegexSelector.NUMBERS.getRegex())){
                 int number = Integer.parseInt(getCollectedInput().trim());
-                setCollectedInput(matchesList.get(number - 1));
-                match=true;
-            }catch (Exception e){
-                System.out.println(e.getStackTrace());
+                if(number > 0 && number <= matchesList.size()) {
+                    setCollectedInput(matchesList.get(number - 1));
+                    match = true;
+                }
             }
         }
         if(match) {

@@ -23,8 +23,18 @@ public enum Status implements Serializable {
     }
 
     public static List<String> getStatusStringList() {
-        return Arrays.stream(Status.values()).map(Enum::name).collect(Collectors.toList());
+        return Arrays.stream(Status.values()).map(Status::getStatus).collect(Collectors.toList());
     }
+
+    public static Status getStatusFromString(String status){
+        for (Status item : Status.values()){
+            if(item.getStatus().toLowerCase().equals(status.toLowerCase())){
+                return item;
+            }
+        }
+        return Status.OPEN;
+    }
+
 
     @Override
     public String toString(){

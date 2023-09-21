@@ -16,13 +16,17 @@ public class ConsoleView extends ActiveConsoleComponent {
     public DialogResult show(){
         DialogResult result = DialogResult.AWAITING;
 
+        //We clear all input collectors previous status, so they start as AWAITING
         restartInputCollectors();
 
         ActiveConsoleComponent lastInputCollector = inputCollectorsList.get(inputCollectorsList.size() - 1);
 
+        //If the result is ESCAPE or SUCCESS then we exit the loop
         while (result != DialogResult.ESCAPE && lastInputCollector.getCurrentState() != DialogResult.SUCCESS) {
             Console.clear();
+            //Showing all the passive components
             showComponents();
+            //And then showing the input collectors, and collecting the result
             result = showInputCollectors();
         }
 
