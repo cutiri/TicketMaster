@@ -36,27 +36,27 @@ class RequestEditController implements ControllerT<Object,Ticket>{
     private final TextComponent ticketComments = new TextComponent();
 
 
-    private final ConsoleView ticketEditView = new ConsoleView();
+    private final ConsoleView requestEditView = new ConsoleView();
 
     public RequestEditController(User user) {
         this.user = user;
-        ticketEditView.addPassiveComponents(ticketInfo);
-        ticketEditView.addPassiveComponents(ticketNumber);
-        ticketEditView.addPassiveComponents(ticketTitle);
-        ticketEditView.addPassiveComponents(ticketDescription);
-        ticketEditView.addPassiveComponents(ticketCreatedAt);
-        ticketEditView.addPassiveComponents(ticketStatus);
-        ticketEditView.addPassiveComponents(ticketPriority);
-        ticketEditView.addPassiveComponents(ticketLocation);
-        ticketEditView.addPassiveComponents(ticketApprover);
-        ticketEditView.addPassiveComponents(ticketApproved);
-        ticketEditView.addPassiveComponents(ticketTeamAssigned);
-        ticketEditView.addPassiveComponents(ticketUserAssigned);
-        ticketEditView.addPassiveComponents(ticketCreatedBy);
-        ticketEditView.addPassiveComponents(ticketTimeSpent);
-        ticketEditView.addPassiveComponents(ticketComments);
+        requestEditView.addPassiveComponents(ticketInfo);
+        requestEditView.addPassiveComponents(ticketNumber);
+        requestEditView.addPassiveComponents(ticketTitle);
+        requestEditView.addPassiveComponents(ticketDescription);
+        requestEditView.addPassiveComponents(ticketCreatedAt);
+        requestEditView.addPassiveComponents(ticketStatus);
+        requestEditView.addPassiveComponents(ticketPriority);
+        requestEditView.addPassiveComponents(ticketLocation);
+        requestEditView.addPassiveComponents(ticketApprover);
+        requestEditView.addPassiveComponents(ticketApproved);
+        requestEditView.addPassiveComponents(ticketTeamAssigned);
+        requestEditView.addPassiveComponents(ticketUserAssigned);
+        requestEditView.addPassiveComponents(ticketCreatedBy);
+        requestEditView.addPassiveComponents(ticketTimeSpent);
+        requestEditView.addPassiveComponents(ticketComments);
 
-        ticketEditView.addPassiveComponents(new MultiTextComponent(
+        requestEditView.addPassiveComponents(new MultiTextComponent(
                 new ConsoleText("Update "),
                 new ConsoleText("[P]", ConsoleTextColor.GREEN),
                 new ConsoleText("riority "),
@@ -73,7 +73,7 @@ class RequestEditController implements ControllerT<Object,Ticket>{
                 new ConsoleText("OR Leave Blank To Return To Ticket Queue")
 
         ));
-        ticketEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
+        requestEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
 
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
@@ -173,8 +173,8 @@ class RequestEditController implements ControllerT<Object,Ticket>{
 
         while (result != DialogResult.ESCAPE) {
             initializeAllValues();
-            result = ticketEditView.show();
-            String input = ticketEditView.getUserInputs().get(0);
+            result = requestEditView.show();
+            String input = requestEditView.getUserInputs().get(0);
 
             String regex = decisionMap.keySet().stream().filter((r) -> input.matches(r)).findFirst().orElse(null);
             if(regex != null) {

@@ -129,7 +129,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     }
 
     private void initializeAllValues() {
-        ticketInfo.setText("##Ticket Details##");
+        ticketInfo.setText("## Ticket Details ##");
         ticketInfo.setTextColor(ConsoleTextColor.GREEN);
         ticketNumber.setText("Id: " + ticket.getId());
         ticketTitle.setText("Title: " + ticket.getTitle());
