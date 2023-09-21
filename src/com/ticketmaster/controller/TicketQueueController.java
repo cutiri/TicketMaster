@@ -2,6 +2,7 @@ package com.ticketmaster.controller;
 
 import com.ticketmaster.controller.db.TicketDB;
 import com.ticketmaster.model.InvalidActionException;
+import com.ticketmaster.model.Request;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
 import com.ticketmaster.view.components.*;
@@ -31,7 +32,7 @@ class TicketQueueController implements ControllerT<Object, User>{
     public TicketQueueController(){
         super();
         this.ticketQueueUserOptions = new MultiTextComponent(
-                new ConsoleText("Enter "),
+                new ConsoleText("\nEnter "),
                 new ConsoleText("P", ConsoleTextColor.GREEN),
                 new ConsoleText(" or "),
                 new ConsoleText("N", ConsoleTextColor.GREEN),
@@ -42,13 +43,15 @@ class TicketQueueController implements ControllerT<Object, User>{
                 new ConsoleText("T1234\n", ConsoleTextColor.GREEN),
                 new ConsoleText("Enter "),
                 new ConsoleText("A", ConsoleTextColor.GREEN),
-                new ConsoleText(" to add a new ticket.\n"),
+                new ConsoleText(" to add a new ticket or "),
+                new ConsoleText("R", ConsoleTextColor.GREEN),
+                new ConsoleText(" to submit a new request (hardware/software).\n"),
                 new ConsoleText("Enter "),
                 new ConsoleText("F", ConsoleTextColor.GREEN),
                 new ConsoleText(" to set a filter or go to a different ticket queue.\n"),
                 new ConsoleText("Leave blank and press "),
                 new ConsoleText("ENTER", ConsoleTextColor.GREEN),
-                new ConsoleText(" to logout.")
+                new ConsoleText(" to logout.\n")
         );
 
         this.ticketQueueView.addPassiveComponents(ticketsSheet);
@@ -61,11 +64,11 @@ class TicketQueueController implements ControllerT<Object, User>{
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::goToPreviousPage);
         decisionMap.put(RegexSelector.CHARACTER_N.getRegex(), this::goToNextPage);
         decisionMap.put(RegexSelector.CHARACTER_A.getRegex(), this::createNewTicket);
+        decisionMap.put(RegexSelector.CHARACTER_R.getRegex(), this::createNewRequest);
         decisionMap.put(RegexSelector.CHARACTER_F.getRegex(), this::filterBy);
 
 
     }
-
 
 
 
@@ -128,8 +131,14 @@ class TicketQueueController implements ControllerT<Object, User>{
 
         Ticket ticket = TicketDB.findTicketById(ticketNumber);
 
-        TicketEditController ticketEditController = new TicketEditController(user);
-        ticketEditController.run(ticket);
+        System.out.println(ticket);
+
+        if (ticket.getClass().equals(Request.class)) {
+            new RequestEditController(user).run(ticket);
+        } else {
+            TicketEditController ticketEditController = new TicketEditController(user);
+            ticketEditController.run(ticket);
+        }
     }
 
     private void openTableElement(Object input){
@@ -168,6 +177,15 @@ class TicketQueueController implements ControllerT<Object, User>{
                 this.ticketList = ticketQueueFilterController.getTicketList();
         }
 
+    }
+
+    private void createNewRequest(String s) {
+        Ticket newRequest = new AddRequestController().run(user);
+        if (newRequest != null) {
+            Database.allTickets().add(newRequest);
+            if(ticketQueueFilterController.getTicketList() != null)
+                this.ticketList = ticketQueueFilterController.getTicketList();
+        }
     }
 
     private void filterBy(String input) {

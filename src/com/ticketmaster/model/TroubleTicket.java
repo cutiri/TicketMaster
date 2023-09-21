@@ -11,12 +11,8 @@ public class TroubleTicket extends Ticket implements Serializable {
     }
 
     @Override
-    public void close() throws InvalidActionException {
-        if (getComments().size() < 1) {
-            throw new InvalidActionException("Please add a comment to close the ticket.");
-        } else {
-            setStatus(RESOLVED);
-        }
+    public void updateStatus(Status status) throws InvalidActionException {
+        setStatus(status);
     }
 
 

@@ -198,7 +198,7 @@ public abstract class Ticket implements Serializable {
     }
 
     // abstract method
-    public abstract void close() throws InvalidActionException;
+    public abstract void updateStatus(Status status) throws InvalidActionException;
 
     @Override
     public String toString() {
@@ -217,4 +217,6 @@ public abstract class Ticket implements Serializable {
                 ", comments=" + getComments() +
                 '}';
     }
+
+
 }

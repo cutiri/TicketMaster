@@ -2,10 +2,8 @@ package com.ticketmaster.controller;
 
 import com.ticketmaster.model.*;
 import com.ticketmaster.view.components.ConsoleView;
-
 import com.ticketmaster.view.components.MultiTextComponent;
 import com.ticketmaster.view.components.RegexInputCollector;
-
 import com.ticketmaster.view.components.TextComponent;
 import com.ticketmaster.view.utils.*;
 
@@ -15,10 +13,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-class TicketEditController implements ControllerT<Object, Ticket>{
 
-    private User user;
-    private Ticket ticket;
+class RequestEditController implements ControllerT<Object,Ticket>{
+
+    private final User user;
+    private Request ticket;
     private final Map<String, CallBackStringOperator> decisionMap = new TreeMap<>();
     private final TextComponent ticketInfo = new TextComponent();
     private final TextComponent ticketNumber = new TextComponent();
@@ -28,6 +27,8 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     private final TextComponent ticketStatus = new TextComponent();
     private final TextComponent ticketPriority = new TextComponent();
     private final TextComponent ticketLocation = new TextComponent();
+    private final TextComponent ticketApprover = new TextComponent();
+    private final TextComponent ticketApproved = new TextComponent();
     private final TextComponent ticketTeamAssigned = new TextComponent();
     private final TextComponent ticketUserAssigned = new TextComponent();
     private final TextComponent ticketCreatedBy = new TextComponent();
@@ -37,7 +38,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
     private final ConsoleView ticketEditView = new ConsoleView();
 
-    public TicketEditController(User user) {
+    public RequestEditController(User user) {
         this.user = user;
         ticketEditView.addPassiveComponents(ticketInfo);
         ticketEditView.addPassiveComponents(ticketNumber);
@@ -47,6 +48,8 @@ class TicketEditController implements ControllerT<Object, Ticket>{
         ticketEditView.addPassiveComponents(ticketStatus);
         ticketEditView.addPassiveComponents(ticketPriority);
         ticketEditView.addPassiveComponents(ticketLocation);
+        ticketEditView.addPassiveComponents(ticketApprover);
+        ticketEditView.addPassiveComponents(ticketApproved);
         ticketEditView.addPassiveComponents(ticketTeamAssigned);
         ticketEditView.addPassiveComponents(ticketUserAssigned);
         ticketEditView.addPassiveComponents(ticketCreatedBy);
@@ -63,12 +66,14 @@ class TicketEditController implements ControllerT<Object, Ticket>{
                 new ConsoleText("ommit "),
                 new ConsoleText(" [U]", ConsoleTextColor.GREEN),
                 new ConsoleText("ser Assigned "),
-                new ConsoleText("[L]", ConsoleTextColor.GREEN),
-                new ConsoleText("ocation\n"),
+                new ConsoleText(" [L]", ConsoleTextColor.GREEN),
+                new ConsoleText("ocation "),
+                new ConsoleText("[A]", ConsoleTextColor.GREEN),
+                new ConsoleText("pprove\n"),
                 new ConsoleText("OR Leave Blank To Return To Ticket Queue")
-        ));
 
-        ticketEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "Invalid option, please try again", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
+        ));
+        ticketEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
 
 
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::changePriority);
@@ -76,6 +81,18 @@ class TicketEditController implements ControllerT<Object, Ticket>{
         decisionMap.put(RegexSelector.CHARACTER_C.getRegex(), this::addComment);
         decisionMap.put(RegexSelector.CHARACTER_U.getRegex(), this::updateAssignedUser);
         decisionMap.put(RegexSelector.CHARACTER_L.getRegex(), this::updateLocation);
+        decisionMap.put(RegexSelector.CHARACTER_A.getRegex(), this::approveRequest);
+    }
+
+    private void approveRequest(String s) {
+
+        Ticket result = new ApproveController().run(this);
+
+        if (result != null) {
+            ticket.setApproved(true);
+        }
+
+
     }
 
     private void updateLocation(String s) {
@@ -129,7 +146,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     }
 
     private void initializeAllValues() {
-        ticketInfo.setText("##Ticket Details##");
+        ticketInfo.setText("## Request Details ##");
         ticketInfo.setTextColor(ConsoleTextColor.GREEN);
         ticketNumber.setText("Id: " + ticket.getId());
         ticketTitle.setText("Title: " + ticket.getTitle());
@@ -138,6 +155,8 @@ class TicketEditController implements ControllerT<Object, Ticket>{
         ticketStatus.setText("Status: " + ticket.getStatus().getStatus());
         ticketPriority.setText("Priority: " + ticket.getPriority().getPriority());
         ticketLocation.setText("Location: " + ticket.getLocation().getName());
+        ticketApprover.setText("Approver: " + ticket.getApprover().getLogin());
+        ticketApproved.setText("Approved: " + (ticket.isApproved() ? "Yes": "No"));
         ticketTeamAssigned.setText("Team Assigned: " + ticket.getTeamAssigned().getName());
         ticketUserAssigned.setText("User Assigned: " + ticket.getUserAssigned().getLogin());
         ticketCreatedBy.setText("Created By: " + ticket.getCreatedBy().getLogin());
@@ -148,7 +167,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
     @Override
     public Object run(Ticket ticket) throws InvalidActionException {
 
-        this.ticket = ticket;
+        this.ticket = ((Request) ticket);
 
         DialogResult result = DialogResult.AWAITING;
 
@@ -165,4 +184,13 @@ class TicketEditController implements ControllerT<Object, Ticket>{
 
         return null;
     }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public Request getTicket() {
+        return this.ticket;
+    }
 }
+
