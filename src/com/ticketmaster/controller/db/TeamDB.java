@@ -1,12 +1,8 @@
 package com.ticketmaster.controller.db;
 
 import com.ticketmaster.controller.io.AppIO;
-import com.ticketmaster.model.Location;
 import com.ticketmaster.model.Team;
-import com.ticketmaster.model.User;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TeamDB {

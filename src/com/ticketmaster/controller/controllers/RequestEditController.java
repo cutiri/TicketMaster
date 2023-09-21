@@ -1,10 +1,11 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.*;
-import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.MultiTextComponent;
-import com.ticketmaster.view.components.RegexInputCollector;
-import com.ticketmaster.view.components.TextComponent;
+import com.ticketmaster.view.framework.ConsoleView;
+import com.ticketmaster.view.framework.MultiTextComponent;
+import com.ticketmaster.view.framework.RegexInputCollector;
+import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.*;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
-class RequestEditController implements ControllerT<Object,Ticket>{
+class RequestEditController implements Controller<Object,Ticket> {
 
     private final User user;
     private Request ticket;
@@ -176,7 +177,7 @@ class RequestEditController implements ControllerT<Object,Ticket>{
             result = requestEditView.show();
             String input = requestEditView.getUserInputs().get(0);
 
-            String regex = decisionMap.keySet().stream().filter((r) -> input.matches(r)).findFirst().orElse(null);
+            String regex = decisionMap.keySet().stream().filter(input::matches).findFirst().orElse(null);
             if(regex != null) {
                 decisionMap.get(regex).callback(input);
             }

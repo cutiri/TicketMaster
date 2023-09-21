@@ -1,15 +1,16 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Priority;
-import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.ListInputCollector;
-import com.ticketmaster.view.components.MultiTextComponent;
+import com.ticketmaster.view.framework.ConsoleView;
+import com.ticketmaster.view.framework.ListInputCollector;
+import com.ticketmaster.view.framework.MultiTextComponent;
 import com.ticketmaster.view.utils.ConsoleText;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 
-class PrioritySelectorController implements ControllerT<Priority, Priority> {
+class PrioritySelectorController implements Controller<Priority, Priority> {
 
     private final ConsoleView prioritySelectorView = new ConsoleView();
 
@@ -30,7 +31,7 @@ class PrioritySelectorController implements ControllerT<Priority, Priority> {
             if (result == DialogResult.SUCCESS) {
                 String input = prioritySelectorView.getUserInputs().get(0);
 
-                return Priority.valueOf(input);
+                return Priority.valueOf(input.toUpperCase());
             }
         }
         return null;

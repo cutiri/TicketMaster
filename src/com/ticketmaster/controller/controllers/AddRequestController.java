@@ -1,12 +1,13 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
 import com.ticketmaster.controller.db.LocationDB;
 import com.ticketmaster.controller.db.UserDB;
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.*;
-import com.ticketmaster.view.components.ConsoleView;
-import com.ticketmaster.view.components.ListInputCollector;
-import com.ticketmaster.view.components.RegexInputCollector;
-import com.ticketmaster.view.components.TextComponent;
+import com.ticketmaster.view.framework.ConsoleView;
+import com.ticketmaster.view.framework.ListInputCollector;
+import com.ticketmaster.view.framework.RegexInputCollector;
+import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 import com.ticketmaster.view.utils.RegexSelector;
@@ -14,7 +15,7 @@ import com.ticketmaster.view.utils.RegexSelector;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-class AddRequestController implements ControllerT<Ticket, User>{
+class AddRequestController implements Controller<Ticket, User> {
 
     private final ConsoleView addRequestView = new ConsoleView();
 

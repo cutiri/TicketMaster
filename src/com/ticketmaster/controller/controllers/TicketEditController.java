@@ -1,12 +1,13 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.*;
-import com.ticketmaster.view.components.ConsoleView;
+import com.ticketmaster.view.framework.ConsoleView;
 
-import com.ticketmaster.view.components.MultiTextComponent;
-import com.ticketmaster.view.components.RegexInputCollector;
+import com.ticketmaster.view.framework.MultiTextComponent;
+import com.ticketmaster.view.framework.RegexInputCollector;
 
-import com.ticketmaster.view.components.TextComponent;
+import com.ticketmaster.view.framework.TextComponent;
 import com.ticketmaster.view.utils.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-class TicketEditController implements ControllerT<Object, Ticket>{
+class TicketEditController implements Controller<Object, Ticket> {
 
     private User user;
     private Ticket ticket;
@@ -60,7 +61,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
                 new ConsoleText(" [S]", ConsoleTextColor.GREEN),
                 new ConsoleText("tatus "),
                 new ConsoleText(" [C]", ConsoleTextColor.GREEN),
-                new ConsoleText("ommit "),
+                new ConsoleText("comment "),
                 new ConsoleText(" [U]", ConsoleTextColor.GREEN),
                 new ConsoleText("ser Assigned "),
                 new ConsoleText("[L]", ConsoleTextColor.GREEN),
@@ -157,7 +158,7 @@ class TicketEditController implements ControllerT<Object, Ticket>{
             result = ticketEditView.show();
             String input = ticketEditView.getUserInputs().get(0);
 
-            String regex = decisionMap.keySet().stream().filter((r) -> input.matches(r)).findFirst().orElse(null);
+            String regex = decisionMap.keySet().stream().filter(input::matches).findFirst().orElse(null);
             if(regex != null) {
                 decisionMap.get(regex).callback(input);
             }

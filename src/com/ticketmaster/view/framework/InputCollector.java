@@ -1,8 +1,7 @@
-package com.ticketmaster.view.components;
+package com.ticketmaster.view.framework;
 
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
-import com.ticketmaster.view.utils.RegexSelector;
 import com.ticketmaster.view.utils.Console;
 
 import java.util.Scanner;

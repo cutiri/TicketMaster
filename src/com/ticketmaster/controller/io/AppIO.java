@@ -1,10 +1,6 @@
 package com.ticketmaster.controller.io;
 
 import com.ticketmaster.controller.db.AppDatabase;
-import com.ticketmaster.model.Location;
-import com.ticketmaster.model.Team;
-import com.ticketmaster.model.Ticket;
-import com.ticketmaster.model.User;
 
 import java.io.*;
 

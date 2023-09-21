@@ -1,17 +1,20 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
 import com.ticketmaster.controller.db.TicketDB;
+import com.ticketmaster.controller.framework.Controller;
+import com.ticketmaster.controller.io.AppIO;
+import com.ticketmaster.controller.modelview.TicketView;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Request;
 import com.ticketmaster.model.Ticket;
 import com.ticketmaster.model.User;
-import com.ticketmaster.view.components.*;
+import com.ticketmaster.view.framework.*;
 import com.ticketmaster.view.utils.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-class TicketQueueController implements ControllerT<Object, User>{
+class TicketQueueController implements Controller<Object, User> {
     private static final int TICKETS_PER_PAGE = 10;
 
     private int currentPage = 1;
@@ -21,7 +24,6 @@ class TicketQueueController implements ControllerT<Object, User>{
 
     ConsoleView ticketQueueView = new ConsoleView();
     private SheetComponent ticketsSheet = new SheetComponent();
-    private TextComponent bottomBar = new TextComponent();
     private MultiTextComponent ticketQueueUserOptions;
     private RegexInputCollector inputCollector = new RegexInputCollector("Enter text here: ", "Invalid option, try again", "", RegexSelector.ANYTHING.getRegex());
     private TicketQueueFilterController ticketQueueFilterController = new TicketQueueFilterController();
@@ -58,7 +60,7 @@ class TicketQueueController implements ControllerT<Object, User>{
         this.ticketQueueView.addPassiveComponents(ticketQueueUserOptions);
         this.ticketQueueView.addInputCollector(inputCollector);
 
-        decisionMap.put(RegexSelector.NUMBER_1_TO_20.getRegex(), this::openTableElement);
+        //decisionMap.put(RegexSelector.NUMBER_1_TO_20.getRegex(), this::openTableElement);
         decisionMap.put(RegexSelector.TICKET_NUMBER.getRegex(), this::openTicketNumber);
         decisionMap.put(RegexSelector.PAGE_THEN_ANY_NUMBER.getRegex(), this::goToPage);
         decisionMap.put(RegexSelector.CHARACTER_P.getRegex(), this::goToPreviousPage);
@@ -84,7 +86,7 @@ class TicketQueueController implements ControllerT<Object, User>{
             result = ticketQueueView.show();
 
             String input = ticketQueueView.getUserInputs().get(0);
-            String regex = decisionMap.keySet().stream().filter((r) -> input.matches(r)).findFirst().orElse(null);
+            String regex = decisionMap.keySet().stream().filter(input::matches).findFirst().orElse(null);
             if(regex != null) {
                 decisionMap.get(regex).callback(input);
             }
@@ -106,10 +108,10 @@ class TicketQueueController implements ControllerT<Object, User>{
 
         List<List<ConsoleText>> data = new ArrayList<>();
         for (Ticket ticket : tickets){
-            data.add(ticket.getRowData());
+            data.add(TicketView.getRowData(ticket));
         }
 
-        ticketsSheet.setSheetComponentContent(Ticket.getHeaders(), data);
+        ticketsSheet.setSheetComponentContent(TicketView.getHeaders(), data);
         ConsoleMultiColorText consoleMultiColorText = new ConsoleMultiColorText(
                 new ConsoleText("Welcome: "),
                 new ConsoleText(user.getFullName(), ConsoleTextColor.RED),
@@ -121,8 +123,6 @@ class TicketQueueController implements ControllerT<Object, User>{
         ticketsSheet.setCurrentPage(this.currentPage);
         ticketsSheet.setTotalPages(this.numberOfPages);
         ticketsSheet.setTotalRows(this.ticketNumber);
-        //ticketsSheet.setMultiLineRows(true);
-        //ticketsSheet.setRowSeparator(true);
     }
 
     private void openTicketNumber(String input) throws InvalidActionException {
@@ -131,19 +131,14 @@ class TicketQueueController implements ControllerT<Object, User>{
 
         Ticket ticket = TicketDB.findTicketById(ticketNumber);
 
-        System.out.println(ticket);
-
         if (ticket.getClass().equals(Request.class)) {
             new RequestEditController(user).run(ticket);
         } else {
             TicketEditController ticketEditController = new TicketEditController(user);
             ticketEditController.run(ticket);
         }
-    }
 
-    private void openTableElement(Object input){
-        System.out.println(input);
-        System.out.println("openTableElement");
+        AppIO.saveS();
     }
 
     private void goToPage(String input){
@@ -189,7 +184,6 @@ class TicketQueueController implements ControllerT<Object, User>{
     }
 
     private void filterBy(String input) {
-        List<Ticket> ticketQueue = ticketQueueFilterController.run(user);
-        this.ticketList = ticketQueue;
+        this.ticketList = ticketQueueFilterController.run(user);
     }
 }

@@ -1,6 +1,7 @@
 package com.ticketmaster.controller;
 
 
+import com.ticketmaster.controller.controllers.MainController;
 import com.ticketmaster.controller.db.AppDatabase;
 import com.ticketmaster.controller.io.AppIO;
 
@@ -8,12 +9,12 @@ public class TicketMasterApp {
 
     public static void main(String[] args) {
         try {
-            //saveWithFakeData();
             normalAppStart();
 
             MainController mainController = new MainController();
             mainController.run(null);
         }catch (Exception e){
+            saveWithFakeData();
             e.printStackTrace();
         }
     }

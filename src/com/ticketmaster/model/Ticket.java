@@ -1,20 +1,13 @@
 package com.ticketmaster.model;
 
-import com.ticketmaster.view.utils.ConsoleText;
-import com.ticketmaster.view.utils.ConsoleTextBackgroundColor;
-import com.ticketmaster.view.utils.ConsoleTextColor;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.ticketmaster.model.Status.*;
 
 public abstract class Ticket implements Serializable {
-    private static int ID_COUNTER = 1000; // move to DB
-
-    private int id;
+    private int id = -1;
     private String title;
     private String description;
     private LocalDateTime createdAt;
@@ -28,7 +21,6 @@ public abstract class Ticket implements Serializable {
     private final Collection<Comment> comments = new LinkedList<>();
 
     public Ticket(String title, String description, Priority priority, Location location, LocalDateTime createdAt, User createdBy) {
-        setId(ID_COUNTER++);
         setTitle(title);
         setDescription(description);
         setCreatedAt(createdAt);
@@ -40,63 +32,13 @@ public abstract class Ticket implements Serializable {
         setCreatedBy(createdBy);
     }
 
-    public Ticket(int id, String title, String description, Priority priority, Location location, LocalDateTime createdAt, User createdBy,
-                  Status status) {
-        setId(ID_COUNTER++);
-        setTitle(title);
-        setDescription(description);
-        setCreatedAt(createdAt);
-        setStatus(OPEN);
-        setPriority(priority);
-        setLocation(location);
-        setTeamAssigned(location.getSupportTeam());
-        setUserAssigned(teamAssigned.getFirstUser());
-        setCreatedBy(createdBy);
-    }
 
-    public static Map<String, Integer> getHeaders(){
-        Map<String, Integer> headers = new LinkedHashMap<>();
-        headers.put("ID", 5);
-        headers.put("Title", 10);
-        headers.put("Created by", 12);
-        headers.put("Assigned to", 12);
-        headers.put("Date", 19);
-        headers.put("Priority", 10);
-        headers.put("Status", 7);
-        return headers;
-    }
-
-    public List<ConsoleText> getRowData(){
-        List<ConsoleText> rawData = new ArrayList<>();
-        rawData.add(new ConsoleText(String.valueOf("T" + this.getId())));
-        rawData.add(new ConsoleText(this.title));
-        rawData.add(new ConsoleText(this.createdBy.getLogin()));
-        rawData.add(new ConsoleText(this.getUserAssigned().getLogin()));
-        rawData.add(new ConsoleText(this.createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
-
-        ConsoleText sev = new ConsoleText(this.priority.getPriority());
-        if(this.priority == Priority.HIGH) {
-            sev.setConsoleTextBackgroundColor(ConsoleTextBackgroundColor.RED);
-            sev.setConsoleTextColor(ConsoleTextColor.BLACK);
-        }
-        if(this.priority == Priority.MEDIUM) {
-            sev.setConsoleTextBackgroundColor(ConsoleTextBackgroundColor.YELLOW);
-            sev.setConsoleTextColor(ConsoleTextColor.BLACK);
-        }
-        if(this.priority == Priority.LOW) {
-            sev.setConsoleTextBackgroundColor(ConsoleTextBackgroundColor.GREEN);
-            sev.setConsoleTextColor(ConsoleTextColor.BLACK);
-        }
-        rawData.add(sev);
-        rawData.add(new ConsoleText(this.status.toString()));
-        return rawData;
-    }
 
     public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -180,10 +122,6 @@ public abstract class Ticket implements Serializable {
 
     public int getTotalTimeSpentInMinutes() {
         return totalTimeSpentInMinutes;
-    }
-
-    public void setTotalTimeSpentInMinutes(int totalTimeSpentInMinutes) {
-        this.totalTimeSpentInMinutes = totalTimeSpentInMinutes;
     }
 
     public Collection<Comment> getComments() {

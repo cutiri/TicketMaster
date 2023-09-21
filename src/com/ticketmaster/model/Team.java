@@ -2,7 +2,6 @@ package com.ticketmaster.model;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.TreeSet;
 
 public class Team implements Serializable {
     private String name;

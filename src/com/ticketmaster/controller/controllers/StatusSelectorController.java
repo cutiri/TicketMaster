@@ -1,14 +1,15 @@
-package com.ticketmaster.controller;
+package com.ticketmaster.controller.controllers;
 
+import com.ticketmaster.controller.framework.Controller;
 import com.ticketmaster.model.InvalidActionException;
 import com.ticketmaster.model.Status;
 import com.ticketmaster.model.Ticket;
-import com.ticketmaster.view.components.*;
+import com.ticketmaster.view.framework.*;
 import com.ticketmaster.view.utils.ConsoleText;
 import com.ticketmaster.view.utils.ConsoleTextColor;
 import com.ticketmaster.view.utils.DialogResult;
 
-class StatusSelectorController implements ControllerT<Status, Ticket>{
+class StatusSelectorController implements Controller<Status, Ticket> {
 
     private final ConsoleView statusSelectorView = new ConsoleView();
 
@@ -30,7 +31,7 @@ class StatusSelectorController implements ControllerT<Status, Ticket>{
             if (result == DialogResult.SUCCESS) {
                 String input = statusSelectorView.getUserInputs().get(0);
 
-                return Status.valueOf(input);
+                return Status.valueOf(input.toUpperCase());
             }
         }
 
