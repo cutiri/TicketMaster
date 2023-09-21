@@ -47,7 +47,7 @@ public final class AppDatabase implements Serializable {
         User william = new User("william", "password","William Defoe", las2Team);
         User michael = new User("michael", "password","Michael Scofield", las3Team);
         User sam = new User("samuel", "password","Samuel Jackson", las3Team);
-        User dummy = new User("a", "a","Bob Sponge", las3Team);
+        User dummy = new User("bob", "123","Bob Newhart", las3Team);
 
         UserDB.setList(List.of(jack, jason, peter, william, michael, sam, dummy));
 
