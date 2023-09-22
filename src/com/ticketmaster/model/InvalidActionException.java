@@ -1,5 +1,7 @@
 package com.ticketmaster.model;
 
+
+// unchecked exception to throw it when there is an action that is not permitted such as adding a duplicate user, close request without approval.
 public class InvalidActionException extends RuntimeException{
 
     public InvalidActionException() {

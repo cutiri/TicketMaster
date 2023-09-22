@@ -23,7 +23,7 @@ public class TicketView {
         headers.put("Title", 20);
         headers.put("Created by", 12);
         headers.put("Assigned to", 12);
-        headers.put("Date", 19);
+        headers.put("Created At", 19);
         headers.put("Priority", 10);
         headers.put("Status", 16);
         headers.put("Ticket Type", 14);

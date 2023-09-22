@@ -31,6 +31,7 @@ public class Request extends Ticket{
 
     @Override
     public void updateStatus(Status status) throws InvalidActionException {
+        // if passed status is resolved, first check if the request is approved. If not, throw an exception.
         if (status != RESOLVED) {
             setStatus(status);
         } else {

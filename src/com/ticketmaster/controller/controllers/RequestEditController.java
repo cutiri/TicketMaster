@@ -67,7 +67,7 @@ class RequestEditController implements Controller<Object,Ticket> {
                 new ConsoleText(" [S]", ConsoleTextColor.GREEN),
                 new ConsoleText("tatus "),
                 new ConsoleText(" [C]", ConsoleTextColor.GREEN),
-                new ConsoleText("ommit "),
+                new ConsoleText("omment "),
                 new ConsoleText(" [U]", ConsoleTextColor.GREEN),
                 new ConsoleText("ser Assigned "),
                 new ConsoleText(" [L]", ConsoleTextColor.GREEN),
@@ -77,6 +77,7 @@ class RequestEditController implements Controller<Object,Ticket> {
                 new ConsoleText("OR Leave Blank To Return To Ticket Queue")
 
         ));
+
         requestEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
 
 
@@ -94,8 +95,8 @@ class RequestEditController implements Controller<Object,Ticket> {
 
         if (result != null) {
             ticket.setApproved(true);
+            ticket.setStatus(Status.PENDING);
         }
-
 
     }
 

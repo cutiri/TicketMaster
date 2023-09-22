@@ -17,6 +17,7 @@ public class User implements Serializable {
         setPassword(password);
         setTeam(team);
         setActive(true);
+        // add user to the team on creation
         team.addMember(this);
     }
 
@@ -30,6 +31,7 @@ public class User implements Serializable {
         return Objects.hash(getLogin());
     }
 
+    // equals method to be used when adding to the team
     @Override
     public boolean equals(Object other) {
         boolean result = false;

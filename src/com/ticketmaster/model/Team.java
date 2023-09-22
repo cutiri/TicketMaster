@@ -13,6 +13,7 @@ public class Team implements Serializable {
     public Team(String name, Location locatedAt) {
         setName(name);
         setLocatedAt(locatedAt);
+        //add team to support team of the location
         locatedAt.setSupportTeam(this);
     }
 
@@ -36,6 +37,7 @@ public class Team implements Serializable {
         return members;
     }
 
+    // check if the user already exist  before adding it to the team
     public void addMember(User user) throws InvalidActionException{
         if (members.contains(user)) {
             throw new InvalidActionException(String.format("User with login %s already exist.", user.getLogin()));
@@ -44,6 +46,7 @@ public class Team implements Serializable {
         }
     }
 
+    // get first user for ticket assignment when a new ticket gets created
     public User getFirstUser() {
         Iterator<User> iterator = members.iterator();
         return iterator.next();

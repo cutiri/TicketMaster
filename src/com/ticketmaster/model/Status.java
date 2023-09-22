@@ -18,10 +18,12 @@ public enum Status implements Serializable {
         this.status = status;
     }
 
+    // get string of status
     public String getStatus() {
         return status;
     }
 
+    // get a list of all status string value
     public static List<String> getStatusStringList() {
         return Arrays.stream(Status.values()).map(Status::getStatus).collect(Collectors.toList());
     }
