@@ -90,6 +90,7 @@ public abstract class Ticket implements Serializable {
         this.location = location;
     }
 
+    // whenever update location, assign the ticket to the appropriate team and user.
     public void updateLocation(Location location) {
         setLocation(location);
         setTeamAssigned(getLocation().getSupportTeam());
@@ -124,6 +125,7 @@ public abstract class Ticket implements Serializable {
         return totalTimeSpentInMinutes;
     }
 
+    // get a list of all comments in reverse order so new comments appear first
     public Collection<Comment> getComments() {
         List<Comment> reversedComments = new ArrayList<>(comments);
         Collections.reverse(reversedComments);

@@ -21,7 +21,6 @@ class UpdateAssignedUserController implements Controller<User, User> {
     @Override
     public User run(User user) throws InvalidActionException {
 
-//        updateAssignedUserView.addInputCollector(new RegexInputCollector("Assign To: (Or leave blank to return to the ticket): ", "Invalid login, please try again", "", RegexSelector.NO_NUMBERS.getRegex()));
         updateAssignedUserView.addInputCollector(new ListInputCollector("Assign To: (Or leave blank to return to the ticket): ", "Invalid login, please try again", "", UserDB.getList().stream().map(User::getLogin).collect(Collectors.toList())));
         TextComponent invalidLoginError = new TextComponent("User does not exist, please try again", ConsoleTextColor.RED, true);
         invalidLoginError.hide();

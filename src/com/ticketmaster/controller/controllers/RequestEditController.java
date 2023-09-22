@@ -77,6 +77,7 @@ class RequestEditController implements Controller<Object,Ticket> {
                 new ConsoleText("OR Leave Blank To Return To Ticket Queue")
 
         ));
+
         requestEditView.addInputCollector(new RegexInputCollector("Enter one of the options above: ", "", "", RegexSelector.EDIT_TICKET_OPTIONS.getRegex()));
 
 
@@ -95,7 +96,6 @@ class RequestEditController implements Controller<Object,Ticket> {
         if (result != null) {
             ticket.setApproved(true);
         }
-
 
     }
 
