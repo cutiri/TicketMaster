@@ -44,13 +44,11 @@ To set up TicketMaster on your local machine, follow these steps:
    java -classpath out/production/JavaProject_Team2:lib/* com.ticketmaster.controller.TicketMasterApp
    ```
 
-## Usage
-Log in using your credentials.
-New users can register an account if needed.
+## Authentication
+You can use the default credentials to try the app:
+   - username: **jack**
+   - password: **password**
 
-## Contributing
-
-Contributions are welcome! If you have suggestions or improvements, please fork the repository and create a pull request. Ensure that your changes are well-documented and tested.
 
 ## License
 
